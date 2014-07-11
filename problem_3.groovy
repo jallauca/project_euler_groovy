@@ -1,7 +1,14 @@
 class Prime {
-    def static primes = [1, 2, 3, 5] as Set
+    def static primes = [1,2,3,5] as Set
 
-    def static List<Integer> primes_up_to(int max) {
+    def static List<Integer> up_to(int max) {
+        if ( primes.any { it >= max } )
+            return primes.takeWhile { it <= max }
+        else
+            return find_primes(max)
+    }
+
+    def static List<Integer> find_primes(int max) {
         for( int n = 3; n < max; n += 2 ) {
             def prime = true
             if ( n % 5 == 0 ) continue
@@ -40,6 +47,10 @@ expected_primes =
     .replaceAll(/\s\s*/, ' ').stripIndent().split(' ')
     .collect { it.toInteger() }
 
-assert expected_primes == Prime.primes_up_to(1015)
+assert Prime.up_to(1) == [1]
+assert Prime.up_to(2) == [1,2]
+assert Prime.up_to(3) == [1,2,3]
+assert Prime.up_to(5) == [1,2,3,5]
+assert expected_primes == Prime.up_to(1015)
 
 println "tests pass"
