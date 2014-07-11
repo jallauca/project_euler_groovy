@@ -10,8 +10,12 @@ class Prime {
 
     def static List<Long> find_primes(long max) {
         long prime
-        while ( ( prime = next_prime() ) < max )
+        while ( ( prime = next_prime() ) < max ) {
             primes << prime
+            if ( primes.size() % 1000 == 0 )
+                print "."
+        }
+        println ""
         primes.toList()
     }
 
@@ -27,12 +31,8 @@ class Prime {
     }
 
     def static List<Long> prime_factors(long n) {
-        def primes = up_to((n.toLong()/2L).toLong())
-        def factors = [1L] as Set
-        def theprimes = primes.findAll {
-            n % it == 0
-        }.toList()
-        return theprimes
+        def primes = up_to(Math.sqrt(n).toLong())
+        primes.findAll { n % it == 0 }.toList()
     }
 }
 
@@ -68,6 +68,6 @@ assert Prime.up_to(3) == [1,2,3]
 assert Prime.up_to(5) == [1,2,3,5]
 assert expected_primes == Prime.up_to(1015)
 assert Prime.prime_factors(100) == [1L,2L,5L]
-// println( Prime.prime_factors(600851475143) )
+assert Prime.prime_factors(600851475143).max() == 6857
 
 println "tests pass"
