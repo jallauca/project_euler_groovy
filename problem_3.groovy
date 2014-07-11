@@ -1,34 +1,32 @@
 class Prime {
-    def static primes = [1,2,3,5] as Set
+    def static primes = [1L,2L,3L,5L] as SortedSet
 
-    def static List<Integer> up_to(int max) {
+    def static List<Long> up_to(long max) {
         if ( primes.any { it >= max } )
             return primes.takeWhile { it <= max }
         else
             return find_primes(max)
     }
 
-    def static List<Integer> find_primes(int max) {
-        for( int n = 3; n < max; n += 2 ) {
+    def static List<Long> find_primes(long max) {
+        for( long n = 3; n < max; n += 2 ) {
             def prime = true
             if ( n % 5 == 0 ) continue
             for ( int j = 2; primes[j] <= Math.sqrt(n); j++ ) {
-                if ( n % primes[j] == 0 ) { prime = false; continue }
+                if ( n % primes[j] == 0 ) { prime = false; break }
             }
             if ( prime ) primes << n
         }
         primes.toList()
     }
 
-    def static List<Integer> prime_factors(int n) {
-        def primes = find_primes(n*2)
-        def factors = [1,2] as SortedSet
-        primes.each {
-            if ( n % it == 0 ) {
-                factors << it
-            }
-        }
-        factors.toList().sort()
+    def static List<Long> prime_factors(long n) {
+        def primes = up_to((n.toLong()/2L).toLong())
+        def factors = [1L] as SortedSet
+        def theprimes = primes.findAll {
+            n % it == 0
+        }.toList()
+        return theprimes
     }
 }
 
@@ -56,14 +54,14 @@ primes_test_string = """
 expected_primes =
     primes_test_string
     .replaceAll(/\s\s*/, ' ').stripIndent().split(' ')
-    .collect { it.toInteger() }
+    .collect { it.toLong() }
 
 assert Prime.up_to(1) == [1]
 assert Prime.up_to(2) == [1,2]
 assert Prime.up_to(3) == [1,2,3]
 assert Prime.up_to(5) == [1,2,3,5]
 assert expected_primes == Prime.up_to(1015)
-assert Prime.prime_factors(100) == [1,2,5]
+assert Prime.prime_factors(100) == [1L,2L,5L]
 // println( Prime.prime_factors(600851475143) )
 
 println "tests pass"
