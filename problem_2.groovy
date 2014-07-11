@@ -21,4 +21,5 @@ assert fibonnacci(0) == []
 assert fibonnacci(1) == [1]
 assert fibonnacci(2) == [1,2]
 assert fibonnacci(4000000).findAll { it % 2  == 0 }.sum() == 4613732
+
 println "tests pass"
