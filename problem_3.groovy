@@ -22,7 +22,7 @@ class Prime {
 }
 
 // http://primes.utm.edu/lists/small/1000.txt
-primes = """
+primes_test_string = """
       1
       2      3      5      7     11     13     17     19     23     29
      31     37     41     43     47     53     59     61     67     71
@@ -43,7 +43,7 @@ primes = """
     947    953    967    971    977    983    991    997   1009   1013"""
 
 expected_primes =
-    primes
+    primes_test_string
     .replaceAll(/\s\s*/, ' ').stripIndent().split(' ')
     .collect { it.toInteger() }
 
