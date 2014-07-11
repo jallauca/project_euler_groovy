@@ -1,14 +1,17 @@
-def primes_up_to(long max) {
-    primes = [1, 2, 3, 5] as Set
-    for( int n = 3; n < max; n += 2 ) {
-        prime = true
-        if ( n % 5 == 0 ) continue
-        for ( int j = 2; primes[j] <= Math.sqrt(n); j++ ) {
-            if ( n % primes[j] == 0 ) { prime = false; continue }
+class Prime {
+    def static primes = [1, 2, 3, 5] as Set
+
+    def static List<Integer> primes_up_to(int max) {
+        for( int n = 3; n < max; n += 2 ) {
+            def prime = true
+            if ( n % 5 == 0 ) continue
+            for ( int j = 2; primes[j] <= Math.sqrt(n); j++ ) {
+                if ( n % primes[j] == 0 ) { prime = false; continue }
+            }
+            if ( prime ) primes << n
         }
-        if ( prime ) primes << n
+        primes.toList()
     }
-    primes.toList()
 }
 
 // http://primes.utm.edu/lists/small/1000.txt
@@ -36,6 +39,7 @@ expected_primes =
     primes
     .replaceAll(/\s\s*/, ' ').stripIndent().split(' ')
     .collect { it.toInteger() }
-assert expected_primes == primes_up_to(1015)
+
+assert expected_primes == Prime.primes_up_to(1015)
 
 println "tests pass"
