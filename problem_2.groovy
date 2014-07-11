@@ -10,9 +10,6 @@ def fibonnacci(int max) {
     series = [1,2]
     int nextInSeries
 
-    loop {
-    } until(false)
-
     while( (nextInSeries = nextFib(series[-2..-1])) <= max )
         series << nextInSeries
 
