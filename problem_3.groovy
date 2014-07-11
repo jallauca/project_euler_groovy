@@ -19,6 +19,17 @@ class Prime {
         }
         primes.toList()
     }
+
+    def static List<Integer> prime_factors(int n) {
+        def primes = find_primes(n*2)
+        def factors = [1,2] as SortedSet
+        primes.each {
+            if ( n % it == 0 ) {
+                factors << it
+            }
+        }
+        factors.toList().sort()
+    }
 }
 
 // http://primes.utm.edu/lists/small/1000.txt
@@ -52,5 +63,7 @@ assert Prime.up_to(2) == [1,2]
 assert Prime.up_to(3) == [1,2,3]
 assert Prime.up_to(5) == [1,2,3,5]
 assert expected_primes == Prime.up_to(1015)
+assert Prime.prime_factors(100) == [1,2,5]
+// println( Prime.prime_factors(600851475143) )
 
 println "tests pass"
