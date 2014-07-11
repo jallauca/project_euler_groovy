@@ -1,5 +1,5 @@
 class Prime {
-    def static primes = [1L,2L,3L,5L] as SortedSet
+    def static primes = [1L,2L,3L,5L] as Set
 
     def static List<Long> up_to(long max) {
         if ( primes.any { it >= max } )
@@ -9,20 +9,26 @@ class Prime {
     }
 
     def static List<Long> find_primes(long max) {
-        for( long n = 3; n < max; n += 2 ) {
+        long prime
+        while ( ( prime = next_prime() ) < max )
+            primes << prime
+        primes.toList()
+    }
+
+    def static long next_prime() {
+        for( long n = primes[-1] + 2; ; n += 2 ) {
             def prime = true
             if ( n % 5 == 0 ) continue
             for ( int j = 2; primes[j] <= Math.sqrt(n); j++ ) {
                 if ( n % primes[j] == 0 ) { prime = false; break }
             }
-            if ( prime ) primes << n
+            if ( prime ) return n
         }
-        primes.toList()
     }
 
     def static List<Long> prime_factors(long n) {
         def primes = up_to((n.toLong()/2L).toLong())
-        def factors = [1L] as SortedSet
+        def factors = [1L] as Set
         def theprimes = primes.findAll {
             n % it == 0
         }.toList()
