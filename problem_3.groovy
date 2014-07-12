@@ -27,29 +27,31 @@ class PrimeGenerator implements Iterator<Long> {
    }
 }
 
-class Prime {
-
-    def static List<Long> up_to(long max) {
-        def generator = new PrimeGenerator()
-        def primes = []
-        long prime
-
-        while ( (prime = generator.next()) <= max ) primes << prime
-        primes
-    }
-
-    def static List<Long> prime_factors(long n) {
-        def primes = up_to(Math.sqrt(n).toLong())
-        primes.findAll { n % it == 0 }.toList()
-    }
-}
-
 def benchmark = { closure ->
   start = System.currentTimeMillis()
   closure.call()
   now = System.currentTimeMillis()
   now - start
 }
+
+def primes_up_to(long max) {
+    new PrimeGenerator().takeWhile { it <= max }.collect()
+}
+
+def List<Long> find_prime_factors(long n) {
+    def primes = primes_up_to( Math.sqrt(n).toLong() )
+    primes.findAll { n % it == 0 }.toList()
+}
+
+duration = benchmark {
+    assert find_prime_factors(600851475143).max() == 6857
+}
+println "Big number benchmark: ${duration} ms"
+
+assert find_prime_factors(100) == [2,5]
+assert primes_up_to(2) == [2]
+assert primes_up_to(3) == [2,3]
+assert primes_up_to(5) == [2,3,5]
 
 // http://primes.utm.edu/lists/small/1000.txt
 primes_test_string = """
@@ -75,17 +77,6 @@ expected_primes =
     primes_test_string
     .replaceAll(/\s\s*/, ' ').stripIndent().split(' ')
     .collect { it.toLong() }
-
-List<Long> prime_factors
-duration = benchmark { prime_factors = Prime.prime_factors(600851475143) }
-assert prime_factors.max() == 6857
-println "Big number benchmark: ${duration}"
-
-assert Prime.up_to(2) == [2]
-assert Prime.up_to(3) == [2,3]
-assert Prime.up_to(5) == [2,3,5]
-assert expected_primes == Prime.up_to(1015)
-println Prime.prime_factors(100)
-assert Prime.prime_factors(100) == [2,5]
+assert primes_up_to(1015) == expected_primes
 
 println "tests pass"
