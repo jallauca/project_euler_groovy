@@ -1,5 +1,5 @@
 class Prime {
-    def static primes = [1L,2L,3L,5L] as Set
+    def static primes = [1L,2L,3L,5L]
 
     def static List<Long> up_to(long max) {
         if ( primes.any { it >= max } )
@@ -22,7 +22,6 @@ class Prime {
     def static long next_prime() {
         for( long n = primes[-1] + 2; ; n += 2 ) {
             def prime = true
-            if ( n % 5 == 0 ) continue
             for ( int j = 2; primes[j] <= Math.sqrt(n); j++ ) {
                 if ( n % primes[j] == 0 ) { prime = false; break }
             }
@@ -34,6 +33,13 @@ class Prime {
         def primes = up_to(Math.sqrt(n).toLong())
         primes.findAll { n % it == 0 }.toList()
     }
+}
+
+def benchmark = { closure ->
+  start = System.currentTimeMillis()
+  closure.call()
+  now = System.currentTimeMillis()
+  now - start
 }
 
 // http://primes.utm.edu/lists/small/1000.txt
@@ -62,12 +68,19 @@ expected_primes =
     .replaceAll(/\s\s*/, ' ').stripIndent().split(' ')
     .collect { it.toLong() }
 
+// duration = benchmark { println Prime.factors(600851475143) }
+// println "factors: ${duration}"
+
+List<Long> prime_factors
+duration = benchmark { prime_factors = Prime.prime_factors(600851475143) }
+assert prime_factors.max() == 6857
+println "Big number benchmark: ${duration}"
+
 assert Prime.up_to(1) == [1]
 assert Prime.up_to(2) == [1,2]
 assert Prime.up_to(3) == [1,2,3]
 assert Prime.up_to(5) == [1,2,3,5]
 assert expected_primes == Prime.up_to(1015)
 assert Prime.prime_factors(100) == [1L,2L,5L]
-assert Prime.prime_factors(600851475143).max() == 6857
 
 println "tests pass"
