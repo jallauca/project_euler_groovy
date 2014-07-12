@@ -1,32 +1,41 @@
-class Prime {
-    def static primes = [1L,2L,3L,5L]
+class PrimeGenerator implements Iterator<Long> {
+    def primes = [2L,3L]
+    def position = 0;
 
-    def static List<Long> up_to(long max) {
-        if ( primes.any { it >= max } )
-            return primes.takeWhile { it <= max }
-        else
-            return find_primes(max)
+    public boolean hasNext() {
+        return true;
     }
 
-    def static List<Long> find_primes(long max) {
-        long prime
-        while ( ( prime = next_prime() ) < max ) {
-            primes << prime
-            if ( primes.size() % 1000 == 0 )
-                print "."
-        }
-        println ""
-        primes.toList()
+    public Long next() {
+        primes << generate_next()
+        return primes[position++]
     }
 
-    def static long next_prime() {
+    private Long generate_next() {
         for( long n = primes[-1] + 2; ; n += 2 ) {
             def prime = true
-            for ( int j = 2; primes[j] <= Math.sqrt(n); j++ ) {
+            for ( int j = 1; primes[j] <= Math.sqrt(n); j++ ) {
                 if ( n % primes[j] == 0 ) { prime = false; break }
             }
             if ( prime ) return n
         }
+    }
+
+    public void remove(){
+        throw new UnsupportedOperationException(
+            "Remove is not supported on generators");
+   }
+}
+
+class Prime {
+
+    def static List<Long> up_to(long max) {
+        def generator = new PrimeGenerator()
+        def primes = []
+        long prime
+
+        while ( (prime = generator.next()) <= max ) primes << prime
+        primes
     }
 
     def static List<Long> prime_factors(long n) {
@@ -44,7 +53,6 @@ def benchmark = { closure ->
 
 // http://primes.utm.edu/lists/small/1000.txt
 primes_test_string = """
-      1
       2      3      5      7     11     13     17     19     23     29
      31     37     41     43     47     53     59     61     67     71
      73     79     83     89     97    101    103    107    109    113
@@ -68,19 +76,16 @@ expected_primes =
     .replaceAll(/\s\s*/, ' ').stripIndent().split(' ')
     .collect { it.toLong() }
 
-// duration = benchmark { println Prime.factors(600851475143) }
-// println "factors: ${duration}"
-
 List<Long> prime_factors
 duration = benchmark { prime_factors = Prime.prime_factors(600851475143) }
 assert prime_factors.max() == 6857
 println "Big number benchmark: ${duration}"
 
-assert Prime.up_to(1) == [1]
-assert Prime.up_to(2) == [1,2]
-assert Prime.up_to(3) == [1,2,3]
-assert Prime.up_to(5) == [1,2,3,5]
+assert Prime.up_to(2) == [2]
+assert Prime.up_to(3) == [2,3]
+assert Prime.up_to(5) == [2,3,5]
 assert expected_primes == Prime.up_to(1015)
-assert Prime.prime_factors(100) == [1L,2L,5L]
+println Prime.prime_factors(100)
+assert Prime.prime_factors(100) == [2,5]
 
 println "tests pass"
