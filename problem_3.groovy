@@ -43,15 +43,15 @@ def List<Long> find_prime_factors(long n) {
     primes.findAll { n % it == 0 }.toList()
 }
 
-duration = benchmark {
-    assert find_prime_factors(600851475143).max() == 6857
-}
-println "Big number benchmark: ${duration} ms"
-
 assert find_prime_factors(100) == [2,5]
 assert primes_up_to(2) == [2]
 assert primes_up_to(3) == [2,3]
 assert primes_up_to(5) == [2,3,5]
+
+duration = benchmark {
+    assert find_prime_factors(600851475143).max() == 6857
+}
+println "Big number benchmark: ${duration} ms"
 
 // http://primes.utm.edu/lists/small/1000.txt
 primes_test_string = """
