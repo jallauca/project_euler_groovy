@@ -1,23 +1,12 @@
-class FibonacciGenerator implements Iterator<Integer> {
+def fibonacci(int max) {
     def fibs = [1,1]
 
-    def boolean hasNext() {
-        true
-    }
+    iter = [
+       next: { fibs = [fibs[1], fibs.sum()] ; return fibs[0] },
+       hasNext: { true }
+   ] as Iterator
 
-    def Integer next() {
-        fibs = [fibs[1], fibs.sum()]
-        return fibs[0]
-    }
-
-    public void remove(){
-        throw new UnsupportedOperationException(
-            "Remove is not supported on generators");
-   }
-}
-
-def fibonacci(int max) {
-    new FibonacciGenerator().takeWhile { it <= max }.collect()
+    iter.takeWhile { it <= max }.collect()
 }
 
 assert fibonacci(-4) == []
