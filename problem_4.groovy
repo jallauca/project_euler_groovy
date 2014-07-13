@@ -17,10 +17,9 @@ def find_palindromes_of_products(List<Integer> numbers) {
     ( 0..numbers.size().div(2)).inject([ ] ) { palindromes, x ->
         palindrome = (0..x).findResult { y ->
             product = numbers[x] * numbers[y]
-            is_palindrome(product) ? product : null
+            if ( is_palindrome(product) ) return product
         }
-        if ( palindrome ) palindromes << palindrome
-        palindromes
+        palindromes << palindrome ?: []
     }
 }
 
