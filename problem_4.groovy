@@ -5,6 +5,10 @@
 
 // Find the largest palindrome made from the product of two 3-digit numbers.
 
+// Solution Tips:
+// Reverse the list of numbers in decreasing order so that finding the
+// first palindrome yields the highest one.
+
 def n_digit_numbers(int n) {
     (10..<10.power(n))
 }
@@ -14,6 +18,7 @@ def n_digit_numbers(int n) {
 }
 
 def find_palindromes_of_products(List<Integer> numbers) {
+    numbers = numbers.reverse()
     ( 0..numbers.size().div(2) ).inject([ ]) { palindromes, x ->
         palindrome = (0..x).findResult { y ->
             product = numbers[x] * numbers[y]
@@ -29,8 +34,8 @@ assert is_palindrome(101)
 assert !is_palindrome(5010)
 assert is_palindrome(50105)
 
-def two_digit_numbers = n_digit_numbers(2).reverse()
-def three_digit_numbers = n_digit_numbers(3).reverse()
+def two_digit_numbers = n_digit_numbers(2)
+def three_digit_numbers = n_digit_numbers(3)
 
 assert find_palindromes_of_products( three_digit_numbers ).max() == 906609
 assert find_palindromes_of_products( two_digit_numbers ).max() == 9009
