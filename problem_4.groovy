@@ -30,9 +30,9 @@ assert !is_palindrome(5010)
 assert is_palindrome(50105)
 
 def two_digit_numbers = n_digit_numbers(2).reverse()
-assert find_palindromes_of_products( two_digit_numbers ).max() == 9009
-
 def three_digit_numbers = n_digit_numbers(3).reverse()
+
 assert find_palindromes_of_products( three_digit_numbers ).max() == 906609
+assert find_palindromes_of_products( two_digit_numbers ).max() == 9009
 
 println "tests pass"
