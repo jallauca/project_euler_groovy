@@ -14,7 +14,7 @@ def n_digit_numbers(int n) {
 }
 
 def find_palindromes_of_products(List<Integer> numbers) {
-    ( 0..numbers.size().div(2)).inject([ ] ) { palindromes, x ->
+    ( 0..numbers.size().div(2) ).inject([ ]) { palindromes, x ->
         palindrome = (0..x).findResult { y ->
             product = numbers[x] * numbers[y]
             if ( is_palindrome(product) ) return product
