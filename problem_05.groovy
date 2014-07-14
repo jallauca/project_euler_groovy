@@ -76,10 +76,8 @@ def primes_by_higher_count_of_factors(prime_range) {
     prime_range
     .collect { prime_factors(it).countBy { it } }
     .inject([ : ]) { prime_by_count, groups ->
-        groups.each { prime, prime_count ->
-            new_count = prime_count
-            old_count = prime_by_count[prime] ?: 0
-            if ( new_count > old_count ) prime_by_count[prime] = new_count
+        groups.each { prime, count ->
+            prime_by_count[prime] = [prime_by_count[prime], count].max()
         }
         prime_by_count
     }
