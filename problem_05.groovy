@@ -74,12 +74,13 @@ assert prime_factors(20) == [2,2,5]
 
 def primes_by_higher_count_of_factors(prime_range) {
     prime_range
-    .collect { prime_factors(it) }
-    .collect { primes -> primes.groupBy() }
+    .collect { prime_factors(it).groupBy() }
     .inject([ : ]) { prime_by_count, groups ->
-        groups.each { k, v ->
-            prime_by_count[k] =
-                v.size() > (prime_by_count[k] ?: 0) ? v.size : prime_by_count[k]
+        groups.each { prime, grouped_primes ->
+            new_count = grouped_primes.size()
+            old_count = prime_by_count[prime] ?: 0
+            if ( new_count > old_count ) prime_by_count[prime] = new_count
+            //  prime_by_count[prime]=  > (prime_by_count[prime] ?: 0) ? grouped_primes.size : prime_by_count[prime]
         }
         prime_by_count
     }
