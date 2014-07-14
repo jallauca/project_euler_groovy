@@ -18,13 +18,12 @@ def n_digit_numbers(int n) {
 }
 
 def find_palindromes_of_products(List<Integer> numbers) {
-    numbers = numbers.reverse()
-    ( 0..numbers.size().div(2) ).inject([ ]) { palindromes, x ->
-        palindrome = (0..x).findResult { y ->
+    def result = ( 0..<numbers.size() ).collect { int x ->
+        palindrome = (x..0).findResult { int y ->
             product = numbers[x] * numbers[y]
-            if ( is_palindrome(product) ) return product
+            is_palindrome(product) ? product : null
         }
-        palindromes << palindrome ?: []
+        palindrome ?: 0
     }
 }
 
