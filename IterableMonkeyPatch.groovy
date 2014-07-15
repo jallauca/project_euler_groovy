@@ -2,8 +2,8 @@ Iterable.metaClass.eachConsecutive = { int n ->
     (0..delegate.size()-n).collect{ delegate[it..it+n-1] }
 }
 
-Iterable.metaClass.tee = { Closure ->
-    if ( Closure ) println Closure.call(delegate)
+Iterable.metaClass.tee = { closure ->
+    if ( closure ) println closure(delegate)
     else println delegate
     delegate
 }
