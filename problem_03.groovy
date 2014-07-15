@@ -19,18 +19,12 @@
 
 // include PrimeGenerator
 evaluate(new File("PrimeGenerator.groovy"))
+evaluate(new File("Benchmark.groovy"))
 
 // force the compiler to load PrimeGenerator and PrimeNumbe
 new PrimeGenerator()
 
-def benchmark = { closure ->
-  start = System.currentTimeMillis()
-  closure.call()
-  now = System.currentTimeMillis()
-  now - start
-}
-
-duration = benchmark {
+duration = Benchmark.run {
     assert PrimeNumber.find_prime_factors(600851475143).max() == 6857
 }
 
