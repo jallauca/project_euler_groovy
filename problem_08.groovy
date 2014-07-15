@@ -29,11 +29,10 @@ def numbers_test_string = """
 71636269561882670428252483600823257530420752963450
 """
 
-def numbers =
-    numbers_test_string
-    .replaceAll(/\s/, '').stripIndent()
-    .getChars()
-    .collect { it.toString().toInteger() }
+def numbers_rows = numbers_test_string.stripIndent().split(/\n/)[1..-1]
+def numbers_each = numbers_rows.collect { row ->
+    row.getChars().collect { c -> c.toString().toInteger() }
+}
 
 def max_combination(List<Integer> numbers, int n) {
     numbers.eachConsecutive(n).collect{ product_of_each(it) }.max()
@@ -43,7 +42,9 @@ def product_of_each(List<Integer> numbers) {
     numbers.inject(1) { seed, n -> seed * n }
 }
 
-assert max_combination( numbers, 4 ) == 5832
-println max_combination( numbers, 13 )
+assert numbers_each.collect { max_combination(it, 4) }.max() == 5832
+
+// println numbers_each
+// println (numbers_each.collect { max_combination(it, 13) }.max())
 
 println "tests pass"
