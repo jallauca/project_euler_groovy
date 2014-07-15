@@ -34,7 +34,7 @@ def numbers_test_string = """
 71636269561882670428252483600823257530420752963450
 """
 
-def product_of_each(List<Long> numbers) {
+def product_of_each_digit = { List<Long> numbers ->
     numbers.inject(1) { seed, n -> seed * n }
 }
 
@@ -44,7 +44,7 @@ def largest_product_in_series = { int n ->
     .stripIndent()
     .getChars().collect{ it.toString().toLong() }
     .eachConsecutive(n)
-    .collect { product_of_each(it) }
+    .collect( product_of_each_digit )
     .max()
 }
 
