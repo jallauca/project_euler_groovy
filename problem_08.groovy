@@ -2,6 +2,11 @@ Iterable.metaClass.eachConsecutive = { int n ->
     (0..delegate.size()-n).collect{ delegate[it..it+n-1] }
 }
 
+Iterable.metaClass.tee = { Closure ->
+    if ( Closure ) println Closure.call(delegate)
+    else println delegate
+    delegate
+}
 assert [1,2,3,4,5,6].eachConsecutive(2) == [[1,2], [2,3], [3,4], [4,5], [5,6]]
 assert [1,2,3,4,5,6].eachConsecutive(3) == [[1,2,3], [2,3,4], [3,4,5], [4,5,6]]
 assert [1,2,3,4,5,6].eachConsecutive(4) == [[1,2,3,4], [2,3,4,5], [3,4,5,6]]
@@ -31,20 +36,27 @@ def numbers_test_string = """
 
 def numbers_rows = numbers_test_string.stripIndent().split(/\n/)[1..-1]
 def numbers_each = numbers_rows.collect { row ->
-    row.getChars().collect { c -> c.toString().toInteger() }
+    row.getChars().collect { c -> c.toString().toLong() }
 }
 
-def max_combination(List<Integer> numbers, int n) {
-    numbers.eachConsecutive(n).collect{ product_of_each(it) }.max()
+def max_combination(List<Long> numbers, int n) {
+    numbers.eachConsecutive(n).collect{
+        product_of_each(it) }.max()
 }
 
-def product_of_each(List<Integer> numbers) {
+def product_of_each(List<Long> numbers) {
     numbers.inject(1) { seed, n -> seed * n }
 }
 
-assert numbers_each.collect { max_combination(it, 4) }.max() == 5832
+// assert numbers_each.collect { max_combination(it, 4) }.max() == 5832
 
-// println numbers_each
-// println (numbers_each.collect { max_combination(it, 13) }.max())
+println ""
+println (numbers_each
+    .collect { it.eachConsecutive(13) }
+    // .tee()
+    .collect { it.collect { ns -> product_of_each(ns) } }
+    // .tee { items -> "\n$items\n"}
+    .flatten()
+    .max())
 
 println "tests pass"
