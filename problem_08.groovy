@@ -34,29 +34,23 @@ def numbers_test_string = """
 71636269561882670428252483600823257530420752963450
 """
 
-def numbers_rows = numbers_test_string.stripIndent().split(/\n/)[1..-1]
-def numbers_each = numbers_rows.collect { row ->
-    row.getChars().collect { c -> c.toString().toLong() }
-}
-
-def max_combination(List<Long> numbers, int n) {
-    numbers.eachConsecutive(n).collect{
-        product_of_each(it) }.max()
-}
-
 def product_of_each(List<Long> numbers) {
     numbers.inject(1) { seed, n -> seed * n }
 }
 
-// assert numbers_each.collect { max_combination(it, 4) }.max() == 5832
+def largest_product_in_series = { int n ->
+    numbers_test_string
+    .replaceAll(/\s/, "")
+    .stripIndent()
+    .getChars().collect{ it.toString().toLong() }
+    .eachConsecutive(n)
+    .collect { product_of_each(it) }
+    .max()
+}
 
-println ""
-println (numbers_each
-    .collect { it.eachConsecutive(13) }
-    // .tee()
-    .collect { it.collect { ns -> product_of_each(ns) } }
-    // .tee { items -> "\n$items\n"}
-    .flatten()
-    .max())
+assert largest_product_in_series(4) == 5832
+assert largest_product_in_series(13) == 23514624000
+
+println largest_product_in_series(13)
 
 println "tests pass"
