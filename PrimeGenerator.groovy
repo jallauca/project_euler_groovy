@@ -50,6 +50,11 @@ public class PrimeNumber {
         new PrimeGenerator().takeWhile { it <= max }.collect()
     }
 
+    def static n_primes(int n) {
+        int c = 1
+        new PrimeGenerator().takeWhile { c++ <= n }.collect()
+    }
+
     def static List<Long> find_prime_factors(long n) {
         def primes = primes_up_to( Math.sqrt(n).toLong() )
         primes.findAll { n % it == 0 }.toList()
@@ -62,6 +67,7 @@ class PrimeGeneratorTests {
         assert PrimeNumber.primes_up_to(2) == [2]
         assert PrimeNumber.primes_up_to(3) == [2,3]
         assert PrimeNumber.primes_up_to(5) == [2,3,5]
+        assert PrimeNumber.n_primes(10) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 
         // http://primes.utm.edu/lists/small/1000.txt
         def primes_test_string = """
