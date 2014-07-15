@@ -36,12 +36,14 @@ def numbers =
     .collect { it.toString().toInteger() }
 
 def max_combination(List<Integer> numbers, int n) {
-    numbers.eachConsecutive(n).sort()[-1]
+    numbers.eachConsecutive(n).collect{ product_of_each(it) }.max()
 }
-    // .max( { a, b -> a <=> b } as Iterator )
 
-def product = max_combination(numbers, 4).inject(1) { seed, n -> seed * n }
-assert product == 5832
-println product
+def product_of_each(List<Integer> numbers) {
+    numbers.inject(1) { seed, n -> seed * n }
+}
 
-// println ([[1,5,3],[5,3,1],[1,3,5],[3,1,5]].sort())
+assert max_combination( numbers, 4 ) == 5832
+println max_combination( numbers, 13 )
+
+println "tests pass"
