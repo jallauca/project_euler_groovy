@@ -41,13 +41,6 @@
 // Thus,
 //   smallest multiple = 7 * 5 * 3*3 * 2*2*2 = 2520
 
-
-// include PrimeGenerator
-evaluate(new File("PrimeGenerator.groovy"))
-
-// force the compiler to load PrimeGenerator and PrimeNumbe
-new PrimeGenerator()
-
 def prime_factors(int n) {
     def primes = PrimeNumber.primes_up_to(n)
     prime_factors_recrsv(n, primes)
