@@ -25,9 +25,10 @@ evaluate(new File("Benchmark.groovy"))
 new PrimeGenerator()
 
 duration = Benchmark.run {
-    assert PrimeNumber.find_prime_factors(600851475143).max() == 6857
+    def answer = PrimeNumber.find_prime_factors(600851475143).max()
+    assert answer == 6857
+    println "answer=$answer"
 }
-
 println "Big number benchmark: ${duration} ms"
 
 println "tests pass"
