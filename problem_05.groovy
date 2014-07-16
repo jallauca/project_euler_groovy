@@ -50,14 +50,14 @@ new PrimeGenerator()
 
 def prime_factors(int n) {
     def primes = PrimeNumber.primes_up_to(n)
-    all_prime_factors(n, primes)
+    prime_factors_recrsv(n, primes)
 }
 
-def all_prime_factors(int n, List<Integer> primes) {
+def prime_factors_recrsv(int n, List<Integer> primes) {
     if ( n <= 1 ) return []
 
     prime = primes.find { n % it == 0 }
-    [prime] + all_prime_factors( prime ? n.div(prime).toInteger() : 1, primes )
+    [prime] + prime_factors_recrsv( prime ? n.div(prime).toInteger() : 1, primes )
 }
 
 assert prime_factors(1)  == []
@@ -94,3 +94,6 @@ assert smallest_multiple( (1..10) ) == 2520
 assert smallest_multiple( (1..20) ) == 232792560
 
 println "tests pass"
+
+def answer = smallest_multiple( (1..20) )
+println "answer=$answer"
