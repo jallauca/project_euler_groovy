@@ -41,33 +41,9 @@
 // Thus,
 //   smallest multiple = 7 * 5 * 3*3 * 2*2*2 = 2520
 
-def prime_factors(int n) {
-    def primes = PrimeNumber.primes_up_to(n)
-    prime_factors_recrsv(n, primes)
-}
-
-def prime_factors_recrsv(int n, List<Integer> primes) {
-    if ( n <= 1 ) return []
-
-    prime = primes.find { n % it == 0 }
-    [prime] + prime_factors_recrsv( prime ? n.div(prime).toInteger() : 1, primes )
-}
-
-assert prime_factors(1)  == []
-assert prime_factors(2)  == [2]
-assert prime_factors(3)  == [3]
-assert prime_factors(4)  == [2,2]
-assert prime_factors(5)  == [5]
-assert prime_factors(6)  == [2,3]
-assert prime_factors(7)  == [7]
-assert prime_factors(8)  == [2,2,2]
-assert prime_factors(9)  == [3,3]
-assert prime_factors(10) == [2,5]
-assert prime_factors(20) == [2,2,5]
-
 def primes_by_higher_count_of_factors(prime_range) {
     prime_range
-    .collect { prime_factors(it).countBy { it } }
+    .collect { PrimeNumber.prime_factors(it).countBy { it } }
     .inject([ : ]) { prime_by_count, groups ->
         groups.each { prime, count ->
             prime_by_count[prime] = [prime_by_count[prime], count].max()

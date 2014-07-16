@@ -13,6 +13,18 @@ public class PrimeNumber {
         primes.findAll { n % it == 0 }.toList()
     }
 
+    def static prime_factors(int n) {
+        def primes = PrimeNumber.primes_up_to(n)
+        prime_factors_recrsv(n, primes)
+    }
+
+    def static prime_factors_recrsv(int n, List<Integer> primes) {
+        if ( n <= 1 ) return []
+
+        def prime = primes.find { n % it == 0 }
+        [prime] + prime_factors_recrsv( prime ? n.div(prime).toInteger() : 1, primes )
+    }
+
     public static void main(String[] args) {
         new PrimeNumberTests().run()
     }
@@ -25,6 +37,18 @@ class PrimeNumberTests {
         assert PrimeNumber.primes_up_to(3) == [2,3]
         assert PrimeNumber.primes_up_to(5) == [2,3,5]
         assert PrimeNumber.n_primes(10) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+
+        assert PrimeNumber.prime_factors(1)  == []
+        assert PrimeNumber.prime_factors(2)  == [2]
+        assert PrimeNumber.prime_factors(3)  == [3]
+        assert PrimeNumber.prime_factors(4)  == [2,2]
+        assert PrimeNumber.prime_factors(5)  == [5]
+        assert PrimeNumber.prime_factors(6)  == [2,3]
+        assert PrimeNumber.prime_factors(7)  == [7]
+        assert PrimeNumber.prime_factors(8)  == [2,2,2]
+        assert PrimeNumber.prime_factors(9)  == [3,3]
+        assert PrimeNumber.prime_factors(10) == [2,5]
+        assert PrimeNumber.prime_factors(20) == [2,2,5]
 
         // http://primes.utm.edu/lists/small/1000.txt
         def primes_test_string = """
