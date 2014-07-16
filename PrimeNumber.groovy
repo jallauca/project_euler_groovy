@@ -15,14 +15,16 @@ public class PrimeNumber {
 
     def static prime_factors(int n) {
         def primes = PrimeNumber.primes_up_to(n)
-        prime_factors_recrsv(n, primes)
-    }
 
-    def static prime_factors_recrsv(int n, List<Integer> primes) {
-        if ( n <= 1 ) return []
+        def prime_factors_recrsv
+        prime_factors_recrsv = { int d ->
+            if ( d <= 1 ) return []
 
-        def prime = primes.find { n % it == 0 }
-        [prime] + prime_factors_recrsv( prime ? n.div(prime).toInteger() : 1, primes )
+            def prime = primes.find { d % it == 0 }
+            [prime] + prime_factors_recrsv( prime ? d.div(prime).toInteger() : 1 )
+        }
+
+        prime_factors_recrsv(n)
     }
 
     public static void main(String[] args) {
