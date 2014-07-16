@@ -12,13 +12,13 @@ evaluate(new File("Benchmark.groovy"))
 // force the compiler to load PrimeGenerator and PrimeNumbe
 new PrimeGenerator()
 
-duration = Benchmark.run {
-    def prime = PrimeNumber.n_primes(10001)[-1]
+int prime
+def duration = Benchmark.run {
+    prime = PrimeNumber.n_primes(10001)[-1]
     assert prime == 104743
-
-    println "answer=$prime"
 }
 
 println "tests pass"
 
+println "answer=$prime"
 println "Big number benchmark: ${duration} ms"
