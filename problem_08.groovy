@@ -23,23 +23,22 @@ def numbers_test_string = """
 71636269561882670428252483600823257530420752963450
 """
 
-def product_of_each_digit = { List<Long> numbers ->
-    numbers.inject(1) { seed, n -> seed * n }
+def product_of_each_digit = { List<Integer> numbers ->
+    numbers.inject(1) { seed, n -> (seed * n) as long }
 }
 
 def largest_product_in_series = { int n ->
-    numbers_test_string
-    .replaceAll(/\s/, "")
-    .stripIndent()
-    .getChars().collect{ it.toString().toLong() }
-    .eachConsecutive(n)
-    .collect( product_of_each_digit )
+    def zero_char = 48
+
+    numbers_test_string.replaceAll(/\s/, "").stripIndent()
+    .getChars().collect{ (it - zero_char) as int }
+    .eachConsecutive(n).collect( product_of_each_digit )
     .max()
 }
 
 assert largest_product_in_series(4) == 5832
 assert largest_product_in_series(13) == 23514624000
 
-println largest_product_in_series(13)
-
 println "tests pass"
+
+println "answer=${largest_product_in_series(13)}"
