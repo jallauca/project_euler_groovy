@@ -21,7 +21,7 @@ public class PrimeNumber {
             if ( d <= 1 ) return []
 
             def prime = primes.find { d % it == 0 }
-            [prime] + prime_factors_recrsv( prime ? d.div(prime).toInteger() : 1 )
+            [prime] + prime_factors_recrsv( prime ? d.div(prime) as int : 1 )
         }
 
         prime_factors_recrsv(n)
