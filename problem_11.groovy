@@ -66,9 +66,8 @@ def product_of_each_digit = { List<Integer> ns ->
 
 def max_all_directions =
   [indexes_vertical, indexes_horizontal, indexes_inc_up_right, indexes_inc_up_left]
-  .collect { it.collect { idx -> numbers[idx] } }
-  .collect { it.collect( product_of_each_digit ).max() }
-  .max()
+  .collect { it.collect { idx -> numbers[idx] }.collect( product_of_each_digit ) }
+  .flatten().max()
 
 assert max_all_directions == 70600674
 println "answer=$max_all_directions"
