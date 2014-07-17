@@ -60,13 +60,13 @@ def indexes_inc_up_right = grid_consecutive_incline_upper_right(grid_size, cons)
 def indexes_vertical = grid_consecutive_vertical(grid_size, cons)
 def indexes_horizontal = grid_consecutive_horizontal(grid_size, cons)
 
-def product_of_each_digit = { List<Integer> ns ->
+def product_of_each = { List<Integer> ns ->
     ns.inject(1) { seed, n -> (seed * n) as long }
 }
 
 def max_all_directions =
   [indexes_vertical, indexes_horizontal, indexes_inc_up_right, indexes_inc_up_left]
-  .collect { it.collect { idx -> numbers[idx] }.collect( product_of_each_digit ) }
+  .collect { it.collect { idx -> product_of_each( numbers[idx] ) } }
   .flatten().max()
 
 assert max_all_directions == 70600674
