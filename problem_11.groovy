@@ -20,10 +20,6 @@ def grid_consecutive_incline_up_right = { int n, cons = 3 ->
     .collect { [it, (0..-100)].transpose().collect { it.sum() } }
 }
 
-// println grid_consecutive_incline_up_left(10,4)
-// println grid_consecutive_incline_up_right(10,4)
-// println grid_consecutive_vertical(10,4)
-
 assert grid_consecutive_vertical(3) == [[0, 3, 6], [1, 4, 7], [2, 5, 8]]
 assert grid_consecutive_incline_up_left(3) == [[0, 4, 8]]
 assert grid_consecutive_incline_up_right(3) == [[2, 4, 6]]
@@ -54,5 +50,17 @@ assert grid_consecutive_incline_up_right(5) == [
     [2, 6, 10], [3, 7, 11], [4, 8, 12],
     [7, 11, 15], [8, 12, 16], [9, 13, 17],
     [12, 16, 20], [13, 17, 21], [14, 18, 22]]
+
+def indexes = grid_consecutive_incline_up_left(10,4)
+assert [indexes[0], indexes[-1]] == [[0, 11, 22, 33], [66, 77, 88, 99]]
+
+indexes = grid_consecutive_incline_up_right(10,4)
+assert [indexes[0], indexes[-1]] == [[3, 12, 21, 30], [69, 78, 87, 96]]
+
+indexes = grid_consecutive_vertical(10,4)
+assert [indexes[0], indexes[-1]] == [[0, 10, 20, 30], [69, 79, 89, 99]]
+
+indexes = grid_consecutive_incline_up_left(20,4)
+assert [indexes[0], indexes[-1]] == [[0, 21, 42, 63], [336, 357, 378, 399]]
 
 println "tests pass"
