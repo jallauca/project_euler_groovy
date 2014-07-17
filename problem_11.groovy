@@ -5,10 +5,10 @@ def number_grid(n) { (0..<n.power(2)) }
 def grid_consecutive_vertical = { int n, cons = 3 ->
     number_grid(n)
     .findAll { it -> it + n*(cons-1) < n.power(2) }
-    .collect { (it..<it + n*cons).step(n) }
+    .collect { (it..it + n*(cons-1)).step(n) }
 }
 
-// println grid_consecutive_vertical(5,4)
+println grid_consecutive_vertical(10,4)
 
 def grid_consecutive_incline_right = { int n, step = 3 ->
     grid_consecutive_vertical(n)
