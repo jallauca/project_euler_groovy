@@ -6,7 +6,6 @@ def grid_consecutive_vertical = { int n, step = 3 ->
     number_grid(n)
     .findAll { it -> it + n*2 < n.power(2) }
     .collect { x -> [x, x + n, x + n*2] }
-    // .findAll { x, y, z -> z < n.power(2) }
 }
 
 def grid_consecutive_incline_right = { int n, step = 3 ->
@@ -16,10 +15,9 @@ def grid_consecutive_incline_right = { int n, step = 3 ->
 }
 
 def grid_consecutive_incline_left = { int n, step = 3 ->
-    number_grid(n)
-    .findAll { it % n > step - 2 }
-    .collect { x -> [x, x + n - 1, x + n*2 - 2] }
-    .findAll { _, y, z -> z < n.power(2) }
+    grid_consecutive_vertical(n)
+    .findAll { x, y, z -> x % n > step - 2 }
+    .collect { x, y, z -> [x, y - 1, z - 2] }
 }
 
 assert grid_consecutive_vertical(3) == [[0, 3, 6], [1, 4, 7], [2, 5, 8]]
