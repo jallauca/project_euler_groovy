@@ -50,27 +50,23 @@ def numbers_test_string = """
 """
 
 def numbers = numbers_test_string.stripIndent().split(/\s/)[1..-1]
-          .collect { it.toString().toInteger()  }
+              .collect { it.toString().toInteger()  }
 
 def grid_size = 20
 def cons = 4
 
 def indexes_inc_up_left = grid_consecutive_incline_upper_left(grid_size, cons)
 def indexes_inc_up_right = grid_consecutive_incline_upper_right(grid_size, cons)
-def indexes_inc_vertical = grid_consecutive_vertical(grid_size, cons)
-def indexes_inc_horizontal = grid_consecutive_horizontal(grid_size, cons)
-
-def verticals = indexes_inc_vertical.collect { it.collect { idx -> numbers[idx] } }
-def horizontals = indexes_inc_horizontal.collect { it.collect { idx -> numbers[idx] } }
-def upper_rights = indexes_inc_up_right.collect { it.collect { idx -> numbers[idx] } }
-def upper_lefts = indexes_inc_up_left.collect { it.collect { idx -> numbers[idx] } }
+def indexes_vertical = grid_consecutive_vertical(grid_size, cons)
+def indexes_horizontal = grid_consecutive_horizontal(grid_size, cons)
 
 def product_of_each_digit = { List<Integer> ns ->
     ns.inject(1) { seed, n -> (seed * n) as long }
 }
 
 def max_all_directions =
-  [horizontals, verticals, upper_lefts, upper_rights]
+  [indexes_vertical, indexes_horizontal, indexes_inc_up_right, indexes_inc_up_left]
+  .collect { it.collect { idx -> numbers[idx] } }
   .collect { it.collect( product_of_each_digit ).max() }
   .max()
 
