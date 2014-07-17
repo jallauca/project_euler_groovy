@@ -15,17 +15,18 @@ def number_grid(n) { (0..<n.power(2)) }
 
 def grid_consecutive_incline_right = { int n, step = 3 ->
     number_grid(n)
-    .eachConsecutive(step, n)
-    .collect { x,y,z -> [x, y+1, z+2] }
-    .findAll { x,y,z -> x<n.power(2) && y<n.power(2) && z<n.power(2) && x % n < n-step+1 }
+    .findAll { it % n < n - step + 1 }
+    .collect { x -> [x, x + n + 1, x + n*2 + 2] }
+    .findAll { x, y, z -> z < n.power(2) }
 }
 
 def grid_consecutive_incline_left = { int n, step = 3 ->
     number_grid(n)
-    .eachConsecutive(step, n)
-    .collect { x,y,z -> [x, y-1, z-2] }
-    .findAll { x,y,z -> x % n>step-2 }
+    .findAll { it % n > step - 2 }
+    .collect { x -> [x, x + n - 1, x + n*2 - 2] }
+    .findAll { _, y, z -> z < n.power(2) }
 }
+
 assert number_grid(3).eachConsecutive(3, 3) == [
     [0, 3, 6], [1, 4, 7], [2, 5, 8]]
 
