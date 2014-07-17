@@ -57,9 +57,17 @@ def verticals = indexes_inc_vertical.collect { it.collect { idx -> numbers[idx] 
 def upper_rights = indexes_inc_up_right.collect { it.collect { idx -> numbers[idx] } }
 def upper_lefts = indexes_inc_up_left.collect { it.collect { idx -> numbers[idx] } }
 
-println verticals
-println upper_rights
-println upper_lefts
+def product_of_each_digit = { List<Integer> ns ->
+    ns.inject(1) { seed, n -> (seed * n) as long }
+}
+
+def max_all_directions =
+  [verticals, upper_lefts, upper_rights]
+  .collect { it.collect( product_of_each_digit ).max() }
+  .max()
+
+assert max_all_directions == 70600674
+println "answer=$max_all_directions"
 
 
 
