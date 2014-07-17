@@ -5,7 +5,6 @@ def number_grid(n) { (0..<n.power(2)) }
 def grid_consecutive_horizontal = { int n, int cons = 3 ->
     number_grid(n)
     .findAll { it.div(n) as int == (it+cons-1).div(n) as int }
-    .tee()
     .collect { (it..it+cons-1).collect() }
 }
 
@@ -59,8 +58,10 @@ def cons = 4
 def indexes_inc_up_left = grid_consecutive_incline_upper_left(grid_size, cons)
 def indexes_inc_up_right = grid_consecutive_incline_upper_right(grid_size, cons)
 def indexes_inc_vertical = grid_consecutive_vertical(grid_size, cons)
+def indexes_inc_horizontal = grid_consecutive_horizontal(grid_size, cons)
 
 def verticals = indexes_inc_vertical.collect { it.collect { idx -> numbers[idx] } }
+def horizontals = indexes_inc_horizontal.collect { it.collect { idx -> numbers[idx] } }
 def upper_rights = indexes_inc_up_right.collect { it.collect { idx -> numbers[idx] } }
 def upper_lefts = indexes_inc_up_left.collect { it.collect { idx -> numbers[idx] } }
 
@@ -69,7 +70,7 @@ def product_of_each_digit = { List<Integer> ns ->
 }
 
 def max_all_directions =
-  [verticals, upper_lefts, upper_rights]
+  [horizontals, verticals, upper_lefts, upper_rights]
   .collect { it.collect( product_of_each_digit ).max() }
   .max()
 
