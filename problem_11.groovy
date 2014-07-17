@@ -1,21 +1,18 @@
 evaluate(new File("IterableMonkeyPatch.groovy"))
 
-grid_count = 4
-consecutive = 3
-
 def number_grid(n) { (0..<n.power(2)) }
 
 def grid_consecutive_vertical = { int n, step = 3 ->
     number_grid(n)
+    .findAll { it -> it + n*2 < n.power(2) }
     .collect { x -> [x, x + n, x + n*2] }
-    .findAll { x, y, z -> z < n.power(2) }
+    // .findAll { x, y, z -> z < n.power(2) }
 }
 
 def grid_consecutive_incline_right = { int n, step = 3 ->
-    number_grid(n)
-    .findAll { it % n < n - step + 1 }
-    .collect { x -> [x, x + n + 1, x + n*2 + 2] }
-    .findAll { x, y, z -> z < n.power(2) }
+    grid_consecutive_vertical(n)
+    .findAll { x, y, z -> x % n < n - step + 1 }
+    .collect { x, y, z -> [x, y + 1, z + 2] }
 }
 
 def grid_consecutive_incline_left = { int n, step = 3 ->
