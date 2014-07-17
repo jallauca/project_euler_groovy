@@ -2,9 +2,16 @@ evaluate(new File("IterableMonkeyPatch.groovy"))
 
 def number_grid(n) { (0..<n.power(2)) }
 
+def grid_consecutive_horizontal = { int n, int cons = 3 ->
+    number_grid(n)
+    .findAll { it.div(n) as int == (it+cons-1).div(n) as int }
+    .tee()
+    .collect { (it..it+cons-1).collect() }
+}
+
 def grid_consecutive_vertical = { int n, int cons = 3 ->
     number_grid(n)
-    .findAll { it -> it + n*(cons-1) < n.power(2) }
+    .findAll { it + n*(cons-1) < n.power(2) }
     .collect { (it..it + n*(cons-1)).step(n) }
 }
 
@@ -74,9 +81,16 @@ println "answer=$max_all_directions"
 
 
 
+assert grid_consecutive_horizontal(3) == [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
 assert grid_consecutive_vertical(3) == [[0, 3, 6], [1, 4, 7], [2, 5, 8]]
 assert grid_consecutive_incline_upper_left(3) == [[0, 4, 8]]
 assert grid_consecutive_incline_upper_right(3) == [[2, 4, 6]]
+
+assert grid_consecutive_horizontal(4) == [
+  [0, 1, 2], [1, 2, 3],
+  [4, 5, 6], [5, 6, 7],
+  [8, 9, 10], [9, 10, 11],
+  [12, 13, 14], [13, 14, 15]]
 
 assert grid_consecutive_vertical(4) == [
     [0, 4, 8],  [1, 5, 9],  [2, 6, 10],  [3, 7, 11],
@@ -89,6 +103,13 @@ assert grid_consecutive_incline_upper_left(4) == [
 assert grid_consecutive_incline_upper_right(4) == [
     [2, 5, 8], [3, 6, 9],
     [6, 9, 12], [7, 10, 13]]
+
+assert grid_consecutive_horizontal(5) == [
+  [0, 1, 2], [1, 2, 3], [2, 3, 4],
+  [5, 6, 7], [6, 7, 8], [7, 8, 9],
+  [10, 11, 12], [11, 12, 13], [12, 13, 14],
+  [15, 16, 17], [16, 17, 18], [17, 18, 19],
+  [20, 21, 22], [21, 22, 23], [22, 23, 24]]
 
 assert grid_consecutive_vertical(5) == [
      [0, 5, 10],   [1, 6, 11],   [2, 7, 12],   [3, 8, 13],   [4, 9, 14],
