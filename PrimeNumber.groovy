@@ -4,8 +4,7 @@ public class PrimeNumber {
     }
 
     def static n_primes(int n) {
-        def c = 1
-        new PrimeGenerator().takeWhile { c++ <= n }.collect()
+        new PrimeGenerator().take(n).collect()
     }
 
     def static List<Long> find_prime_factors(long n) {
