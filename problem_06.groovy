@@ -12,15 +12,15 @@
 
 // Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
 
-def sum_of_squares(range) {
+def sum_of_squares(IntRange range) {
     range.collect { it.power(2) }.sum()
 }
 
-def square_of_sums(range) {
+def square_of_sums(IntRange range) {
     range.sum().power(2)
 }
 
-def sum_square_difference(range) {
+def sum_square_difference(IntRange range) {
     square_of_sums( range ) - sum_of_squares( range )
 }
 
