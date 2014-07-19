@@ -78,6 +78,11 @@ println "answer=$max_all_directions"
 
 
 
+
+
+
+
+
 assert (0..9).collect { consecutive_horizontal(it, 3, 3) } ==
   [[0, 1, 2], [],[], [3, 4, 5], [],[], [6, 7, 8], [],[],[]]
 assert (0..9).collect { consecutive_vertical(it, 3, 3) } ==
