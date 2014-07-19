@@ -17,11 +17,11 @@ public class PrimeNumber {
         def primes = PrimeNumber.primes_up_to(n)
 
         def prime_factors_recrsv
-        prime_factors_recrsv = { int d ->
-            if ( d <= 1 ) return []
+        prime_factors_recrsv = { int dividend ->
+            if ( dividend <= 1 ) return []
 
-            def prime = primes.find { d % it == 0 }
-            [prime] + prime_factors_recrsv( prime ? d.div(prime) as int : 1 )
+            def prime = primes.find { prime -> dividend % prime == 0 }
+            [prime] + prime_factors_recrsv( dividend.div(prime) as int )
         }
 
         prime_factors_recrsv(n)
