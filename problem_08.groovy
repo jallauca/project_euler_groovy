@@ -34,7 +34,7 @@ def numbers_test_string = """
 """
 
 def zero_char = 48
-numbers = numbers_test_string.replaceAll(/\s/, "").stripIndent()
+def numbers = numbers_test_string.replaceAll(/\s/, "").stripIndent()
           .getChars().collect{ (it - zero_char) as int }
 
 def product_of_each = { List<Integer> numbers ->
