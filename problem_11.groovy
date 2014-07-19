@@ -26,7 +26,7 @@ def numbers_test_string = """
 def number_grid(n) { (0..<n.power(2)) }
 
 def consecutive_horizontal = { int n, int cons = 3, int grid_size ->
-  ( n.div(grid_size) as int == (n+cons-1).div(grid_size) as int ) ?
+  ( n < grid_size.power(2) && n.div(grid_size) as int == (n+cons-1).div(grid_size) as int ) ?
   ( n..n+cons-1).collect() : []
 }
 
@@ -36,14 +36,14 @@ def consecutive_vertical = { int n, int cons = 3, int grid_size ->
 }
 
 def consecutive_incline_upper_left = { int n, int cons = 3, int grid_size ->
-  if ( n % grid_size >= grid_size - cons + 1 ) []
+  if ( n % grid_size >= grid_size - cons + 1 ) return []
 
   vertical = consecutive_vertical(n, cons, grid_size)
   return [vertical, (0..100)].transpose().collect { it.sum() }
 }
 
 def consecutive_incline_upper_right = { int n, int cons = 3, int grid_size ->
-  if ( n % grid_size <= cons - 2 ) []
+  if ( n % grid_size <= cons - 2 ) return []
 
   vertical = consecutive_vertical(n, cons, grid_size)
   return [vertical, (0..-100)].transpose().collect { it.sum() }
@@ -78,14 +78,14 @@ println "answer=$max_all_directions"
 
 
 
-
-assert consecutive_horizontal(0, 3, 9) == [0, 1, 2]
-// assert consecutive_horizontal(1, 3, 9) == []
-// assert consecutive_horizontal(2, 3, 9) == [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
-
-// assert grid_consecutive_vertical(3) == [[0, 3, 6], [1, 4, 7], [2, 5, 8]]
-// assert grid_consecutive_incline_upper_left(3) == [[0, 4, 8]]
-// assert grid_consecutive_incline_upper_right(3) == [[2, 4, 6]]
+assert (0..9).collect { consecutive_horizontal(it, 3, 3) } ==
+  [[0, 1, 2], [],[], [3, 4, 5], [],[], [6, 7, 8], [],[],[]]
+assert (0..9).collect { consecutive_vertical(it, 3, 3) } ==
+  [[0, 3, 6], [1, 4, 7], [2, 5, 8], [],[],[],[],[],[],[]]
+assert (0..9).collect { consecutive_incline_upper_right(it, 3, 3) } ==
+  [[],[], [2, 4, 6], [],[],[],[],[],[],[]]
+assert (0..9).collect { consecutive_incline_upper_left(it, 3, 3) } ==
+  [[0, 4, 8], [],[],[],[],[],[],[],[],[]]
 
 // assert grid_consecutive_horizontal(4) == [
 //   [0, 1, 2], [1, 2, 3],
