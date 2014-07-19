@@ -9,19 +9,19 @@ public class PrimeNumber {
     }
 
     def static List<Long> find_prime_factors(long n) {
-        def primes = primes_up_to( Math.sqrt(n).toLong() )
-        primes.findAll { n % it == 0 }.toList()
+        def primes = primes_up_to( Math.sqrt(n) as long )
+        primes.findAll { n % it == 0 }
     }
 
-    def static prime_factors(int n) {
+    def static prime_factors(long n) {
         def primes = PrimeNumber.primes_up_to(n)
 
         def prime_factors_recrsv
-        prime_factors_recrsv = { int dividend ->
+        prime_factors_recrsv = { long dividend ->
             if ( dividend <= 1 ) return []
 
             def prime = primes.find { prime -> dividend % prime == 0 }
-            [prime] + prime_factors_recrsv( dividend.div(prime) as int )
+            [prime] + prime_factors_recrsv( dividend.div(prime) as long )
         }
 
         prime_factors_recrsv(n)
