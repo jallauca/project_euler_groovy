@@ -19,14 +19,17 @@
 //   23244	= 2 · 2 · 3 · 13 · 149
 //          = 2^2   · 3 · 13 · 149
 
+
+// Given that, my deduction:
+
 // The prime factors of the 10 first numbers
-//   10 = 5 · 2
-//    9 = 3 · 3
-//    8 = 2 · 2 · 2
+//   10 = 5 * 2
+//    9 = 3 * 3
+//    8 = 2 * 2 * 2
 //    7 = 7
-//    6 = 3 · 2
+//    6 = 3 * 2
 //    5 = 5
-//    4 = 2 · 2
+//    4 = 2 * 2
 //    3 = 3
 //    2 = 2
 //    1 = N/A
@@ -41,7 +44,7 @@
 // Thus,
 //   smallest multiple = 7 * 5 * 3*3 * 2*2*2 = 2520
 
-def primes_by_higher_count_of_factors(prime_range) {
+def primes_by_higher_count_of_factors(IntRange prime_range) {
     prime_range
     .collect { PrimeNumber.prime_factors(it).countBy { it } }
     .inject([ : ]) { prime_by_count, groups ->
@@ -52,7 +55,7 @@ def primes_by_higher_count_of_factors(prime_range) {
     }
 }
 
-def smallest_multiple(prime_range) {
+def smallest_multiple(IntRange prime_range) {
     primes_by_higher_count_of_factors( prime_range )
     .inject( 1 ) { seed, prime, prime_count ->
         seed * prime.power(prime_count)
