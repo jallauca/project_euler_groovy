@@ -19,8 +19,8 @@
 
 int answer
 def duration = Benchmark.run {
-    answer = PrimeNumber.find_prime_factors(600851475143).max()
-    assert answer == 6857
+  answer = PrimeNumber.find_prime_factors(600851475143).max()
+  assert answer == 6857
 }
 println "tests pass"
 

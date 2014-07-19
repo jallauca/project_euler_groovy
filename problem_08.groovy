@@ -33,19 +33,16 @@ def numbers_test_string = """
 71636269561882670428252483600823257530420752963450
 """
 
-def get_numbers = {
-  def zero_char = 48
-
-  numbers_test_string.replaceAll(/\s/, "").stripIndent()
-  .getChars().collect{ (it - zero_char) as int }
-}
+def zero_char = 48
+numbers = numbers_test_string.replaceAll(/\s/, "").stripIndent()
+          .getChars().collect{ (it - zero_char) as int }
 
 def product_of_each = { List<Integer> numbers ->
   numbers.inject(1) { seed, n -> (seed * n) as long }
 }
 
 def largest_product_in_series = { int n ->
-  get_numbers()
+  numbers
   .eachConsecutive(n).collect(product_of_each)
   .max()
 }

@@ -9,14 +9,14 @@
 // exceed four million, find the sum of the even-valued terms.
 
 def fibonacci(int max) {
-    def fibs = [1,1]
+  def fibs = [1,1]
 
-    iter = [
-       next: { fibs = [fibs[1], fibs.sum()] ; return fibs[0] },
-       hasNext: { true }
-   ] as Iterator
+  iter = [
+    next: { fibs = [fibs[1], fibs.sum()] ; return fibs[0] },
+    hasNext: { true }
+  ] as Iterator
 
-    iter.takeWhile { it <= max }.collect()
+  iter.takeWhile { it <= max }.collect()
 }
 
 assert fibonacci(-4) == []

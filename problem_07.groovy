@@ -7,8 +7,8 @@
 
 int prime
 def duration = Benchmark.run {
-    prime = PrimeNumber.n_primes(10001)[-1]
-    assert prime == 104743
+  prime = PrimeNumber.n_primes(10001)[-1]
+  assert prime == 104743
 }
 
 println "tests pass"

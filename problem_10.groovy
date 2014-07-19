@@ -2,7 +2,7 @@
 
 long answer
 def duration = Benchmark.run {
-    answer = PrimeNumber.primes_up_to(2000000).sum()
+  answer = PrimeNumber.primes_up_to(2000000).sum()
 }
 
 println "tests pass"
