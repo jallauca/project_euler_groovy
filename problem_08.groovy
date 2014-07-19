@@ -1,3 +1,13 @@
+// Largest product in a series (Problem 8) (https://projecteuler.net/problem=8)
+
+// The four adjacent digits in the 1000-digit number that have the greatest
+// product are 9 × 9 × 8 × 9 = 5832.
+
+// (numbers_test_string)
+
+// Find the thirteen adjacent digits in the 1000-digit number that have the
+// greatest product. What is the value of this product?
+
 evaluate(new File("IterableMonkeyPatch.groovy"))
 
 def numbers_test_string = """
@@ -23,17 +33,21 @@ def numbers_test_string = """
 71636269561882670428252483600823257530420752963450
 """
 
-def product_of_each_digit = { List<Integer> numbers ->
-    numbers.inject(1) { seed, n -> (seed * n) as long }
+def get_numbers = {
+  def zero_char = 48
+
+  numbers_test_string.replaceAll(/\s/, "").stripIndent()
+  .getChars().collect{ (it - zero_char) as int }
+}
+
+def product_of_each = { List<Integer> numbers ->
+  numbers.inject(1) { seed, n -> (seed * n) as long }
 }
 
 def largest_product_in_series = { int n ->
-    def zero_char = 48
-
-    numbers_test_string.replaceAll(/\s/, "").stripIndent()
-    .getChars().collect{ (it - zero_char) as int }
-    .eachConsecutive(n).collect( product_of_each_digit )
-    .max()
+  get_numbers()
+  .eachConsecutive(n).collect(product_of_each)
+  .max()
 }
 
 assert largest_product_in_series(4) == 5832
