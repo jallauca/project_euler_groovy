@@ -26,13 +26,16 @@ def numbers_test_string = """
 def number_grid(n) { (0..<n.power(2)) }
 
 def consecutive_horizontal = { int n, int cons = 3, int grid_size ->
-  ( n < grid_size.power(2) && (n).div(grid_size) as int == (n+cons-1).div(grid_size) as int ) ?
-  ( n..n+cons-1).collect() : []
+  if ( n >= grid_size.power(2) ) return []
+  if ( (n).div(grid_size) as int != (n+cons-1).div(grid_size) as int ) return []
+
+  ( n..n+cons-1).collect()
 }
 
 def consecutive_vertical = { int n, int cons = 3, int grid_size ->
-  ( n + grid_size*(cons-1) < grid_size.power(2) ) ?
-  (n..n + grid_size*(cons-1)).step(grid_size) : []
+  if ( n + grid_size*(cons-1) >= grid_size.power(2) ) return []
+
+  (n..n + grid_size*(cons-1)).step(grid_size)
 }
 
 def consecutive_incline_upper_left = { int n, int cons = 3, int grid_size ->
@@ -66,7 +69,6 @@ def max_all_directions = number_grid(grid_size)
            consecutive_incline_upper_left(n, cons, grid_size),
            consecutive_incline_upper_right(n, cons, grid_size)] }
         .flatten().collate(4)
-        .collect { it.findAll { it < grid_size.power(2) } }
         .collect { idx -> product_of_each( numbers[idx] ) }
         .max()
 
