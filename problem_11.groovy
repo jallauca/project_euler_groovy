@@ -25,27 +25,27 @@ def numbers_test_string = """
 
 def number_grid(n) { (0..<n.power(2)) }
 
-def consecutive_horizontal = { int n, int consecutive = 3, int grid_size ->
+def consecutive_horizontal = { int n, int consecutive, int grid_size ->
   if ( n >= grid_size.power(2) ) return []
   if ( (n).div(grid_size) as int != (n+consecutive-1).div(grid_size) as int ) return []
 
   ( n..n+consecutive-1).collect()
 }
 
-def consecutive_vertical = { int n, int consecutive = 3, int grid_size ->
+def consecutive_vertical = { int n, int consecutive, int grid_size ->
   if ( n + grid_size*(consecutive-1) >= grid_size.power(2) ) return []
 
   (n..n + grid_size*(consecutive-1)).step(grid_size)
 }
 
-def consecutive_incline_upper_left = { int n, int consecutive = 3, int grid_size ->
+def consecutive_incline_upper_left = { int n, int consecutive, int grid_size ->
   if ( n % grid_size >= grid_size - consecutive + 1 ) return []
 
   vertical = consecutive_vertical(n, consecutive, grid_size)
   return [vertical, (0..consecutive)].transpose().collect { it.sum() }
 }
 
-def consecutive_incline_upper_right = { int n, int consecutive = 3, int grid_size ->
+def consecutive_incline_upper_right = { int n, int consecutive, int grid_size ->
   if ( n % grid_size <= consecutive - 2 ) return []
 
   vertical = consecutive_vertical(n, consecutive, grid_size)
