@@ -42,14 +42,14 @@ def consecutive_incline_upper_left = { int n, int cons = 3, int grid_size ->
   if ( n % grid_size >= grid_size - cons + 1 ) return []
 
   vertical = consecutive_vertical(n, cons, grid_size)
-  return [vertical, (0..100)].transpose().collect { it.sum() }
+  return [vertical, (0..cons)].transpose().collect { it.sum() }
 }
 
 def consecutive_incline_upper_right = { int n, int cons = 3, int grid_size ->
   if ( n % grid_size <= cons - 2 ) return []
 
   vertical = consecutive_vertical(n, cons, grid_size)
-  return [vertical, (0..-100)].transpose().collect { it.sum() }
+  return [vertical, (0..-cons)].transpose().collect { it.sum() }
 }
 
 def product_of_each = { List<Integer> ns ->
