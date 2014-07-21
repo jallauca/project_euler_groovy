@@ -25,31 +25,31 @@ def numbers_test_string = """
 
 def number_grid(n) { (0..<n.power(2)) }
 
-def consecutive_horizontal = { int n, int cons = 3, int grid_size ->
+def consecutive_horizontal = { int n, int consecutive = 3, int grid_size ->
   if ( n >= grid_size.power(2) ) return []
-  if ( (n).div(grid_size) as int != (n+cons-1).div(grid_size) as int ) return []
+  if ( (n).div(grid_size) as int != (n+consecutive-1).div(grid_size) as int ) return []
 
-  ( n..n+cons-1).collect()
+  ( n..n+consecutive-1).collect()
 }
 
-def consecutive_vertical = { int n, int cons = 3, int grid_size ->
-  if ( n + grid_size*(cons-1) >= grid_size.power(2) ) return []
+def consecutive_vertical = { int n, int consecutive = 3, int grid_size ->
+  if ( n + grid_size*(consecutive-1) >= grid_size.power(2) ) return []
 
-  (n..n + grid_size*(cons-1)).step(grid_size)
+  (n..n + grid_size*(consecutive-1)).step(grid_size)
 }
 
-def consecutive_incline_upper_left = { int n, int cons = 3, int grid_size ->
-  if ( n % grid_size >= grid_size - cons + 1 ) return []
+def consecutive_incline_upper_left = { int n, int consecutive = 3, int grid_size ->
+  if ( n % grid_size >= grid_size - consecutive + 1 ) return []
 
-  vertical = consecutive_vertical(n, cons, grid_size)
-  return [vertical, (0..cons)].transpose().collect { it.sum() }
+  vertical = consecutive_vertical(n, consecutive, grid_size)
+  return [vertical, (0..consecutive)].transpose().collect { it.sum() }
 }
 
-def consecutive_incline_upper_right = { int n, int cons = 3, int grid_size ->
-  if ( n % grid_size <= cons - 2 ) return []
+def consecutive_incline_upper_right = { int n, int consecutive = 3, int grid_size ->
+  if ( n % grid_size <= consecutive - 2 ) return []
 
-  vertical = consecutive_vertical(n, cons, grid_size)
-  return [vertical, (0..-cons)].transpose().collect { it.sum() }
+  vertical = consecutive_vertical(n, consecutive, grid_size)
+  return [vertical, (0..-consecutive)].transpose().collect { it.sum() }
 }
 
 def product_of_each = { List<Integer> ns ->
@@ -60,14 +60,14 @@ def numbers = numbers_test_string.stripIndent().split(/\s/)[1..-1]
               .collect { it.toString().toInteger()  }
 
 def grid_size = 20
-def cons = 4
+def consecutive = 4
 
 def max_all_directions = number_grid(grid_size)
         .collect { n ->
-          [consecutive_horizontal(n, cons, grid_size),
-           consecutive_vertical(n, cons, grid_size),
-           consecutive_incline_upper_left(n, cons, grid_size),
-           consecutive_incline_upper_right(n, cons, grid_size)] }
+          [consecutive_horizontal(n, consecutive, grid_size),
+           consecutive_vertical(n, consecutive, grid_size),
+           consecutive_incline_upper_left(n, consecutive, grid_size),
+           consecutive_incline_upper_right(n, consecutive, grid_size)] }
         .flatten().collate(4)
         .collect { idx -> product_of_each( numbers[idx] ) }
         .max()
