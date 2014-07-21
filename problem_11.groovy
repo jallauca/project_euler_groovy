@@ -56,7 +56,7 @@ def product_of_each = { List<Integer> ns ->
   ns.inject(1) { seed, n -> (seed * n) as long }
 }
 
-def numbers = numbers_test_string.stripIndent().split(/\s/)[1..-1]
+def numbers = numbers_test_string.split(/\s/)[1..-1]
               .collect { it.toString().toInteger()  }
 
 def grid_size = 20
