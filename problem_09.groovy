@@ -32,8 +32,10 @@ def duration = Benchmark.run {
   }
 }
 
-println "benchmark: ${duration} ms"
-
-assert triplets.inject { p, n -> p * n } == 31875000
-println "answer=${triplets}"
+def answer = triplets.inject { p, n -> p * n }
+assert answer == 31875000
 println "tests pass"
+
+println "triplets=${triplets}"
+println "benchmark: ${duration} ms"
+println "answer=$answer"
