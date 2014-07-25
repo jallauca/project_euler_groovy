@@ -23,11 +23,10 @@ def triplets
 def duration = Benchmark.run {
   triplets = 
   (1..sum).findResult { a ->
-    int half = (sum - a).div(2)
+    def half = (sum - a).div(2) as int
     (a+1..a+1+half).findResult { b ->
-      c = (sum - a - b).abs()
-      if ( a+b+c == sum && pythagorean_triplet(a, b, c) )
-        return [a,b,c]
+      def c = sum - a - b
+      if ( c > 0 && pythagorean_triplet(a, b, c) ) return [a,b,c]
     }
   }
 }
