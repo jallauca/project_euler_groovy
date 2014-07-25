@@ -25,7 +25,7 @@ def duration = Benchmark.run {
   (1..sum).findResult { a ->
     int half = (sum - a).div(2)
     (a+1..a+1+half).findResult { b ->
-      c = sum - a - b
+      c = (sum - a - b).abs()
       if ( a+b+c == sum && pythagorean_triplet(a, b, c) )
         return [a,b,c]
     }
