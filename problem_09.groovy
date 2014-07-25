@@ -19,9 +19,9 @@ def pythagorean_triplet(int a, int b, int c) {
 assert pythagorean_triplet(3, 4, 5) == true
 
 def sum = 1000
-def result
+def triplets
 def duration = Benchmark.run {
-  result = 
+  triplets = 
   (1..sum).findResult { a ->
     int half = (sum - a).div(2)
     (a+1..a+1+half).findResult { b ->
@@ -34,6 +34,6 @@ def duration = Benchmark.run {
 
 println "benchmark: ${duration} ms"
 
-assert result[0] * result[1] * result[2] == 31875000
-println "answer=${result}"
+assert triplets.inject { p, n -> p * n } == 31875000
+println "answer=${triplets}"
 println "tests pass"
