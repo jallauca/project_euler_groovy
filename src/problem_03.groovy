@@ -17,12 +17,18 @@
 // of 37, only three divisions are necessary (m = 2, 3, and 5), given that 4 and
 // 6 are composite.
 
-int answer
-def duration = Benchmark.run {
-  answer = PrimeNumber.find_prime_factors(600851475143).max()
-  assert answer == 6857
-}
-println "tests pass"
+package project.euler.problems
 
-println "answer=$answer"
-println "Big number benchmark: ${duration} ms"
+class Problem_03 {
+  static void main(String[] args) {
+    int answer
+    def duration = Benchmark.run {
+      answer = PrimeNumber.find_prime_factors(600851475143).max()
+      assert answer == 6857
+    }
+    println "tests pass"
+
+    println "answer=$answer"
+    println "Big number benchmark: ${duration} ms"
+  }
+}

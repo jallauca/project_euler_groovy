@@ -12,7 +12,9 @@
 // of 37, only three divisions are necessary (m = 2, 3, and 5), given that 4 and
 // 6 are composite.
 
-public class PrimeGenerator implements Iterator<Long> {
+package project.euler.problems
+
+class PrimeGenerator implements Iterator<Long> {
     def primes = [2L,3L]
     def position = 0;
 

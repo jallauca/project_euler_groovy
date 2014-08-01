@@ -8,24 +8,35 @@
 // By considering the terms in the Fibonacci sequence whose values do not
 // exceed four million, find the sum of the even-valued terms.
 
-def fibonacci(int max) {
-  def fibs = [1,1]
 
-  iter = [
-    next: { fibs = [fibs[1], fibs.sum()] ; return fibs[0] },
-    hasNext: { true }
-  ] as Iterator
+package project.euler.problems
 
-  iter.takeWhile { it <= max }.collect()
+class Problem_02 {
+  static void main(String[] args) {
+    new Problem_02().run()
+  }
+
+  def fibonacci(int max) {
+    def fibs = [1,1]
+
+    def iter = [
+      next: { fibs = [fibs[1], fibs.sum()] ; return fibs[0] },
+      hasNext: { true }
+    ] as Iterator
+
+    iter.takeWhile { it <= max }.collect()
+  }
+
+  def run() {
+    assert fibonacci(-4) == []
+    assert fibonacci(0) == []
+    assert fibonacci(1) == [1]
+    assert fibonacci(2) == [1,2]
+    assert fibonacci(4000000).findAll { it % 2  == 0 }.sum() == 4613732
+
+    println "tests pass"
+
+    def answer = fibonacci(4000000).findAll { it % 2  == 0 }.sum()
+    println "answer=$answer"
+  }
 }
-
-assert fibonacci(-4) == []
-assert fibonacci(0) == []
-assert fibonacci(1) == [1]
-assert fibonacci(2) == [1,2]
-assert fibonacci(4000000).findAll { it % 2  == 0 }.sum() == 4613732
-
-println "tests pass"
-
-def answer = fibonacci(4000000).findAll { it % 2  == 0 }.sum()
-println "answer=$answer"

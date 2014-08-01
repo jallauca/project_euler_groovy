@@ -1,0 +1,31 @@
+<project name="project_euler" default="help" basedir=".">
+    <description>
+        Project Euler (http://projecteuler.net) problems
+    </description>
+
+    <property name="src" location="src" />
+    <property name="lib" location="lib" />
+    <property name="gen" location="gen" />
+
+    <path id="cp">
+        <fileset dir="${lib}/" />
+        <pathelement location="${gen}/classes" />
+        <pathelement location="${gen}/unit" />
+    </path>
+
+    <target name="init">
+        <mkdir dir="${gen}" />
+        <mkdir dir="${gen}/classes" />
+        <mkdir dir="${gen}/unit" />
+        <mkdir dir="${gen}/dist" />
+        <mkdir dir="${gen}/build" />
+    </target>
+
+    <target name="compile" depends="init" description="Compile source code">
+        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="cp" />
+
+        <groovyc srcdir="${src}" destdir="${gen}/classes" classpathref="cp">
+            <javac source="1.7" target="1.7" debug="on" />
+        </groovyc>
+    </target>
+</project>

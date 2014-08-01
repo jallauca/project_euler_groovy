@@ -4,9 +4,15 @@
 
 // Find the sum of all the multiples of 3 or 5 below 1000.
 
-def answer = ( 1..<1000 ).findAll { it % 3 == 0 || it % 5 == 0 }.sum()
-assert answer == 233168
+package project.euler.problems
 
-println "tests pass"
+class Problem_01 {
+  static void main(String[] args) {
+    def answer = ( 1..<1000 ).findAll { it % 3 == 0 || it % 5 == 0 }.sum()
+    assert answer == 233168
 
-println "answer=$answer"
+    println "tests pass"
+
+    println "answer=$answer"
+  }
+}

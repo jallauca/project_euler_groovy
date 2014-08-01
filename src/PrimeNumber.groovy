@@ -1,4 +1,6 @@
-public class PrimeNumber {
+package project.euler.problems
+
+class PrimeNumber {
     def static primes_up_to(long max) {
         new PrimeGenerator().takeWhile { it <= max }.collect()
     }

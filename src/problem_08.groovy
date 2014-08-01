@@ -37,8 +37,8 @@ def zero_char = 48
 def numbers = numbers_test_string.replaceAll(/\s/, "").stripIndent()
           .getChars().collect{ (it - zero_char) as int }
 
-def product_of_each = { List<Integer> numbers ->
-  numbers.inject(1) { seed, n -> (seed * n) as long }
+def product_of_each = { List<Integer> ns ->
+  ns.inject(1) { seed, n -> (seed * n) as long }
 }
 
 def largest_product_in_series = { int n ->
