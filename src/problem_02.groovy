@@ -17,14 +17,6 @@ class Problem_02 {
   }
 
   def run() {
-    assert fibonacci(-4) == []
-    assert fibonacci(0) == []
-    assert fibonacci(1) == [1]
-    assert fibonacci(2) == [1,2]
-    assert fibonacci(4000000).findAll { it % 2  == 0 }.sum() == 4613732
-
-    println "tests pass"
-
     def answer = fibonacci(4000000).findAll { it % 2  == 0 }.sum()
     println "answer=$answer"
   }
