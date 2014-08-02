@@ -1,5 +1,7 @@
+package project.euler.problems
+
 class IterableMonkeyPatch {
-  def apply() {
+  static apply() {
     Iterable.metaClass.eachConsecutive = { int n ->
         (0..delegate.size()-n).collect{ delegate[it..it+n-1] }
     }

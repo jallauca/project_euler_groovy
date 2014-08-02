@@ -12,7 +12,6 @@
 // b and c are two complimentary numbers such that:
 //    b + c = 1000 - a
 
-
 package project.euler.problems
 
 class Problem_09 {

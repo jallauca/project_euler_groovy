@@ -27,7 +27,6 @@ class Problem_06 {
     square_of_sums( range ) - sum_of_squares( range )
   }
 
-
   static void main(String[] args) {
     new Problem_06().run()
   }
