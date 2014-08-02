@@ -5,6 +5,27 @@ class Problem_11 {
     new Problem_11().run()
   }
 
+  def run() {
+    def numbers = numbers_test_string.split(/\s/)[1..-1]
+                  .collect { it.toString().toInteger()  }
+
+    def grid_size = 20
+    def consecutive = 4
+
+    def max_all_directions = number_grid(grid_size)
+            .collect { n ->
+              [consecutive_horizontal(n, consecutive, grid_size),
+               consecutive_vertical(n, consecutive, grid_size),
+               consecutive_incline_upper_left(n, consecutive, grid_size),
+               consecutive_incline_upper_right(n, consecutive, grid_size)] }
+            .flatten().collate(4)
+            .collect { idx -> product_of_each( numbers[idx] ) }
+            .max()
+
+    assert max_all_directions == 70600674
+    println "answer=$max_all_directions"
+  }
+
 def numbers_test_string = """
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
@@ -59,26 +80,5 @@ def numbers_test_string = """
 
   def product_of_each = { List<Integer> ns ->
     ns.inject(1) { seed, n -> (seed * n) as long }
-  }
-
-  def run() {
-    def numbers = numbers_test_string.split(/\s/)[1..-1]
-                  .collect { it.toString().toInteger()  }
-
-    def grid_size = 20
-    def consecutive = 4
-
-    def max_all_directions = number_grid(grid_size)
-            .collect { n ->
-              [consecutive_horizontal(n, consecutive, grid_size),
-               consecutive_vertical(n, consecutive, grid_size),
-               consecutive_incline_upper_left(n, consecutive, grid_size),
-               consecutive_incline_upper_right(n, consecutive, grid_size)] }
-            .flatten().collate(4)
-            .collect { idx -> product_of_each( numbers[idx] ) }
-            .max()
-
-    assert max_all_directions == 70600674
-    println "answer=$max_all_directions"
   }
 }
