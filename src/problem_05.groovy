@@ -52,11 +52,6 @@ class Problem_05 {
   }
 
   def run() {
-    assert smallest_multiple( (1..10) ) == 2520
-    assert smallest_multiple( (1..20) ) == 232792560
-
-    println "tests pass"
-
     def answer = smallest_multiple( (1..20) )
     println "answer=$answer"
   }
