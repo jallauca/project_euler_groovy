@@ -4,8 +4,16 @@
     </description>
 
     <property name="src" location="src" />
+    <property name="src-unit" location="test/unit" />
     <property name="lib" location="lib" />
     <property name="gen" location="gen" />
+
+    <target name="help">
+        <echo message="run 'ant -projecthelp' to see a list of valid targets" />
+    </target>
+    <target name="initTests" unless="test.pattern">
+        <property name="test.pattern" value="**/*Test.class" />
+    </target>
 
     <path id="cp">
         <fileset dir="${lib}/" />
@@ -13,7 +21,7 @@
         <pathelement location="${gen}/unit" />
     </path>
 
-    <target name="init">
+    <target name="init" depends="initTests">
         <mkdir dir="${gen}" />
         <mkdir dir="${gen}/classes" />
         <mkdir dir="${gen}/unit" />
@@ -27,5 +35,66 @@
         <groovyc srcdir="${src}" destdir="${gen}/classes" classpathref="cp">
             <javac source="1.7" target="1.7" debug="on" />
         </groovyc>
+        <groovyc srcdir="${src-unit}" destdir="${gen}/unit" classpathref="cp">
+          <javac source="1.7" target="1.7" debug="on" />
+        </groovyc>
+    </target>
+
+    <property name="test.formatter" value="xml"/>
+    <property name="test.useFile" value="true"/>
+    <property name="test.haltOnError" value="no"/>
+    <property name="test.haltOnFailure" value="no"/>
+
+    <target name="test" depends="compile" description="Run jUnit test classes">
+
+        <delete dir="${gen}/unit/RESULTS" />
+        <mkdir dir="${gen}/unit/RESULTS" />
+        <mkdir dir="${gen}/unit/RESULTS/html" />
+
+        <junit printsummary="yes" haltonerror="${test.haltOnError}" haltonfailure="${test.haltOnFailure}" fork="false" failureproperty="testFailed">
+          <formatter type="${test.formatter}" usefile="${test.useFile}" />
+          <batchtest todir="${gen}/unit/RESULTS">
+            <fileset dir="${gen}/unit">
+              <include name="${test.pattern}" />
+            </fileset>
+          </batchtest>
+          <classpath refid="cp" />
+          <classpath path="conf" />
+        </junit>
+
+        <junitreport todir="${gen}/unit/RESULTS">
+          <fileset dir="${gen}/unit/RESULTS">
+            <include name="TEST-*.xml" />
+          </fileset>
+          <!--<report format="frames" todir="${gen}/unit/RESULTS/html"/>-->
+          <report todir="${gen}/unit/RESULTS/html" />
+        </junitreport>
+
+        <echo message="See a pretty report at ${gen}/unit/RESULTS/html/index.html" />
+        <fail if="testFailed" message="Unit test(s) failed.  See reports!" />
+
+        </target>
+
+        <target name="ensure-test-name" unless="test">
+        <fail message="You must run this target with -Dtest={testName}"/>
+        </target>
+
+        <target name="ensure-method-list" unless="methods">
+        <fail message="You must run this target with -Dmethods={methods}"/>
+        </target>
+
+        <target name="run-test" depends="compile, ensure-test-name, ensure-method-list" description="Run specific jUnit tests">
+        <delete dir="${gen}/unit/RESULTS" />
+        <mkdir dir="${gen}/unit/RESULTS" />
+        <mkdir dir="${gen}/unit/RESULTS/html" />
+
+        <junit printsummary="yes" haltonerror="${test.haltOnError}" haltonfailure="${test.haltOnFailure}" fork="false" failureproperty="testFailed">
+          <formatter type="${test.formatter}" usefile="${test.useFile}" />
+          <test todir="${gen}/unit/RESULTS" name="${test}" methods="${methods}" />        
+          <classpath refid="cp" />
+        </junit>
+
+        <fail if="testFailed" message="Unit test(s) failed.  See reports!" />
+
     </target>
 </project>
