@@ -20,13 +20,6 @@ class Problem_06 {
   }
 
   def run() {
-    assert sum_of_squares( (1..10) ) == 385
-    assert square_of_sums( (1..10 ) ) == 3025
-    assert sum_square_difference( (1..10) ) == 2640
-    assert sum_square_difference( (1..100) ) == 25164150
-
-    println "tests pass"
-
     def answer = sum_square_difference( (1..100) )
     println "answer=$answer"
   }
