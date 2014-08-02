@@ -25,8 +25,6 @@
         <mkdir dir="${gen}" />
         <mkdir dir="${gen}/classes" />
         <mkdir dir="${gen}/unit" />
-        <mkdir dir="${gen}/dist" />
-        <mkdir dir="${gen}/build" />
     </target>
 
     <target name="compile" depends="init" description="Compile source code">
@@ -46,7 +44,6 @@
     <property name="test.haltOnFailure" value="no"/>
 
     <target name="test" depends="compile" description="Run jUnit test classes">
-
         <delete dir="${gen}/unit/RESULTS" />
         <mkdir dir="${gen}/unit/RESULTS" />
         <mkdir dir="${gen}/unit/RESULTS/html" />
@@ -73,28 +70,35 @@
         <echo message="See a pretty report at ${gen}/unit/RESULTS/html/index.html" />
         <fail if="testFailed" message="Unit test(s) failed.  See reports!" />
 
-        </target>
+    </target>
 
-        <target name="ensure-test-name" unless="test">
+    <target name="ensure-test-name" unless="test">
         <fail message="You must run this target with -Dtest={testName}"/>
-        </target>
+    </target>
 
-        <target name="ensure-method-list" unless="methods">
+    <target name="ensure-method-list" unless="methods">
         <fail message="You must run this target with -Dmethods={methods}"/>
-        </target>
+    </target>
 
-        <target name="run-test" depends="compile, ensure-test-name, ensure-method-list" description="Run specific jUnit tests">
+    <target name="run-test" depends="compile, ensure-test-name, ensure-method-list" description="Run specific jUnit tests">
         <delete dir="${gen}/unit/RESULTS" />
         <mkdir dir="${gen}/unit/RESULTS" />
         <mkdir dir="${gen}/unit/RESULTS/html" />
 
         <junit printsummary="yes" haltonerror="${test.haltOnError}" haltonfailure="${test.haltOnFailure}" fork="false" failureproperty="testFailed">
           <formatter type="${test.formatter}" usefile="${test.useFile}" />
-          <test todir="${gen}/unit/RESULTS" name="${test}" methods="${methods}" />        
+          <test todir="${gen}/unit/RESULTS" name="${test}" methods="${methods}" />
           <classpath refid="cp" />
         </junit>
 
         <fail if="testFailed" message="Unit test(s) failed.  See reports!" />
+    </target>
 
+    <target name="jar" depends="compile" description="Create the JAR containing the compiled classes">
+        <jar jarfile="${gen}/lib/${ant.project.name}-${version}.jar" basedir="${gen}/classes" />
+    </target>
+
+    <target name="run" depends="compile" description="Run a single problem">
+        <java classname="project.euler.problems.Problem_${number}" classpathref="cp" />
     </target>
 </project>
