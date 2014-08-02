@@ -16,6 +16,15 @@ class Problem_08 {
     new Problem_08().run()
   }
 
+  def run() {
+    assert largest_product_in_series(4) == 5832
+    assert largest_product_in_series(13) == 23514624000
+
+    println "tests pass"
+
+    println "answer=${largest_product_in_series(13)}"
+  }
+
   def numbers_test_string = """
   73167176531330624919225119674426574742355349194934
   96983520312774506326239578318016984801869478851843
@@ -51,14 +60,5 @@ class Problem_08 {
     numbers
     .eachConsecutive(n).collect(product_of_each)
     .max()
-  }
-
-  def run() {
-    assert largest_product_in_series(4) == 5832
-    assert largest_product_in_series(13) == 23514624000
-
-    println "tests pass"
-
-    println "answer=${largest_product_in_series(13)}"
   }
 }

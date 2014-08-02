@@ -47,6 +47,20 @@
 package project.euler.problems
 
 class Problem_05 {
+  static void main(String[] args) {
+    new Problem_05().run()
+  }
+
+  def run() {
+    assert smallest_multiple( (1..10) ) == 2520
+    assert smallest_multiple( (1..20) ) == 232792560
+
+    println "tests pass"
+
+    def answer = smallest_multiple( (1..20) )
+    println "answer=$answer"
+  }
+
   def primes_by_higher_count_of_factors(IntRange prime_range) {
     prime_range
     .collect { PrimeNumber.prime_factors(it).countBy { it } }
@@ -63,19 +77,5 @@ class Problem_05 {
     .inject( 1 ) { seed, prime, prime_count ->
       seed * prime.power(prime_count)
     }
-  }
-
-  static void main(String[] args) {
-    new Problem_05().run()
-  }
-
-  def run() {
-    assert smallest_multiple( (1..10) ) == 2520
-    assert smallest_multiple( (1..20) ) == 232792560
-
-    println "tests pass"
-
-    def answer = smallest_multiple( (1..20) )
-    println "answer=$answer"
   }
 }

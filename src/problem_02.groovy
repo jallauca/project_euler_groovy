@@ -16,17 +16,6 @@ class Problem_02 {
     new Problem_02().run()
   }
 
-  def fibonacci(int max) {
-    def fibs = [1,1]
-
-    def iter = [
-      next: { fibs = [fibs[1], fibs.sum()] ; return fibs[0] },
-      hasNext: { true }
-    ] as Iterator
-
-    iter.takeWhile { it <= max }.collect()
-  }
-
   def run() {
     assert fibonacci(-4) == []
     assert fibonacci(0) == []
@@ -38,5 +27,16 @@ class Problem_02 {
 
     def answer = fibonacci(4000000).findAll { it % 2  == 0 }.sum()
     println "answer=$answer"
+  }
+
+  def fibonacci(int max) {
+    def fibs = [1,1]
+
+    def iter = [
+      next: { fibs = [fibs[1], fibs.sum()] ; return fibs[0] },
+      hasNext: { true }
+    ] as Iterator
+
+    iter.takeWhile { it <= max }.collect()
   }
 }

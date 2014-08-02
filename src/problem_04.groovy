@@ -16,24 +16,6 @@ class Problem_04 {
     new Problem_04().run()
   }
 
-  def n_digit_numbers(int n) {
-    (10.power(n-1)..<10.power(n))
-  }
-
-  def is_palindrome(int n) {
-    n.toString() == n.toString().reverse()
-  }
-
-  def find_each_palindrome_of_products(List<Integer> numbers) {
-    (numbers.size()-1..<0).collect { int x ->
-      def palindrome = (x-1..0).findResult { int y ->
-        def product = numbers[x] * numbers[y]
-        is_palindrome(product) ? product : null
-      }
-      palindrome ?: 0
-    }
-  }
-
   def run() {
     assert is_palindrome(1)
     assert !is_palindrome(10)
@@ -51,5 +33,23 @@ class Problem_04 {
 
     def answer = find_each_palindrome_of_products( three_digit_numbers ).max()
     println "answer=$answer"
+  }
+
+  def find_each_palindrome_of_products(List<Integer> numbers) {
+    (numbers.size()-1..<0).collect { int x ->
+      def palindrome = (x-1..0).findResult { int y ->
+        def product = numbers[x] * numbers[y]
+        is_palindrome(product) ? product : null
+      }
+      palindrome ?: 0
+    }
+  }
+
+  def n_digit_numbers(int n) {
+    (10.power(n-1)..<10.power(n))
+  }
+
+  def is_palindrome(int n) {
+    n.toString() == n.toString().reverse()
   }
 }

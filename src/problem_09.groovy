@@ -19,10 +19,6 @@ class Problem_09 {
     new Problem_09().run()
   }
 
-  def pythagorean_triplet(int a, int b, int c) {
-    a.power(2) + b.power(2) == c.power(2)
-  }
-
   def run() {
     assert pythagorean_triplet(3, 4, 5) == true
 
@@ -46,5 +42,9 @@ class Problem_09 {
     println "triplets=${triplets}"
     println "benchmark: ${duration} ms"
     println "answer=$answer"
+  }
+
+  def pythagorean_triplet(int a, int b, int c) {
+    a.power(2) + b.power(2) == c.power(2)
   }
 }

@@ -15,18 +15,6 @@
 package project.euler.problems
 
 class Problem_06 {
-  def sum_of_squares(IntRange range) {
-    range.collect { it.power(2) }.sum()
-  }
-
-  def square_of_sums(IntRange range) {
-    range.sum().power(2)
-  }
-
-  def sum_square_difference(IntRange range) {
-    square_of_sums( range ) - sum_of_squares( range )
-  }
-
   static void main(String[] args) {
     new Problem_06().run()
   }
@@ -41,5 +29,17 @@ class Problem_06 {
 
     def answer = sum_square_difference( (1..100) )
     println "answer=$answer"
+  }
+
+  def sum_of_squares(IntRange range) {
+    range.collect { it.power(2) }.sum()
+  }
+
+  def square_of_sums(IntRange range) {
+    range.sum().power(2)
+  }
+
+  def sum_square_difference(IntRange range) {
+    square_of_sums( range ) - sum_of_squares( range )
   }
 }
