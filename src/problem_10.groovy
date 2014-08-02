@@ -14,9 +14,7 @@ class Problem_10 {
       answer = PrimeNumber.primes_up_to(2000000).sum()
     }
 
-    println "tests pass"
-
-    println "Big number benchmark: ${duration} ms"
-    println "answer=$answer"
+    print "answer=$answer"
+    println " Big number benchmark: ${duration} ms"
   }
 }

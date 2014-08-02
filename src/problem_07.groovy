@@ -14,9 +14,7 @@ class Problem_07 {
       assert prime == 104743
     }
 
-    println "tests pass"
-
-    println "Big number benchmark: ${duration} ms"
-    println "answer=$prime"
+    print "answer=$prime"
+    println " Benchmark: ${duration} ms"
   }
 }

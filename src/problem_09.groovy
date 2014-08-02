@@ -35,11 +35,10 @@ class Problem_09 {
 
     def answer = triplets.inject { p, n -> p * n }
     assert answer == 31875000
-    println "tests pass"
 
-    println "triplets=${triplets}"
-    println "benchmark: ${duration} ms"
-    println "answer=$answer"
+    print "answer=$answer"
+    print " triplets=${triplets}"
+    println " Benchmark: ${duration} ms"
   }
 
   def pythagorean_triplet(int a, int b, int c) {

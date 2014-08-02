@@ -27,7 +27,7 @@ class Problem_03 {
       assert answer == 6857
     }
 
-    println "answer=$answer"
-    println "Big number benchmark: ${duration} ms"
+    print "answer=$answer"
+    println " Benchmark: ${duration} ms"
   }
 }

@@ -11,8 +11,6 @@ class Problem_01 {
     def answer = ( 1..<1000 ).findAll { it % 3 == 0 || it % 5 == 0 }.sum()
     assert answer == 233168
 
-    println "tests pass"
-
     println "answer=$answer"
   }
 }
