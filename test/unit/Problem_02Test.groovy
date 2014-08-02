@@ -4,7 +4,7 @@ import org.junit.*
 
 class Problem_02Test {
   @Test
-  void should_include_number_in_summation() {
+  void fibonacci_produces_correct_results() {
     assert new Problem_02().fibonacci(-4) == []
     assert new Problem_02().fibonacci(0) == []
     assert new Problem_02().fibonacci(1) == [1]

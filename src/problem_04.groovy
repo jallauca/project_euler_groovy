@@ -17,20 +17,7 @@ class Problem_04 {
   }
 
   def run() {
-    assert is_palindrome(1)
-    assert !is_palindrome(10)
-    assert is_palindrome(101)
-    assert !is_palindrome(5010)
-    assert is_palindrome(50105)
-
-    def two_digit_numbers = n_digit_numbers(2)
     def three_digit_numbers = n_digit_numbers(3)
-
-    assert find_each_palindrome_of_products( two_digit_numbers ).max() == 9009
-    assert find_each_palindrome_of_products( three_digit_numbers ).max() == 906609
-
-    println "tests pass"
-
     def answer = find_each_palindrome_of_products( three_digit_numbers ).max()
     println "answer=$answer"
   }

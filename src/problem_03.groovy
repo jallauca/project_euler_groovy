@@ -26,7 +26,6 @@ class Problem_03 {
       answer = PrimeNumber.find_prime_factors(600851475143).max()
       assert answer == 6857
     }
-    println "tests pass"
 
     println "answer=$answer"
     println "Big number benchmark: ${duration} ms"
