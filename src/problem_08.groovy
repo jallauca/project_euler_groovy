@@ -12,16 +12,14 @@ package project.euler.problems
 
 class Problem_08 {
   static void main(String[] args) {
-    IterableMonkeyPatch.apply()
     new Problem_08().run()
   }
 
+  Problem_08() {
+    IterableMonkeyPatch.apply()
+  }
+
   def run() {
-    assert largest_product_in_series(4) == 5832
-    assert largest_product_in_series(13) == 23514624000
-
-    println "tests pass"
-
     println "answer=${largest_product_in_series(13)}"
   }
 

@@ -20,12 +20,10 @@ class Problem_09 {
   }
 
   def run() {
-    assert pythagorean_triplet(3, 4, 5) == true
-
     def sum = 1000
     def triplets
     def duration = Benchmark.run {
-      triplets = 
+      triplets =
       (1..sum).findResult { a ->
         def half = (sum - a).div(2) as int
         (a+1..a+1+half).findResult { b ->
