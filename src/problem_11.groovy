@@ -1,4 +1,9 @@
-evaluate(new File("IterableMonkeyPatch.groovy"))
+package project.euler.problems
+
+class Problem_11 {
+  static void main(String[] args) {
+    new Problem_11().run()
+  }
 
 def numbers_test_string = """
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -23,137 +28,132 @@ def numbers_test_string = """
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 """
 
-def number_grid(n) { (0..<n.power(2)) }
+  def number_grid(n) { (0..<n.power(2)) }
 
-def consecutive_horizontal = { int n, int consecutive, int grid_size ->
-  if ( n >= grid_size.power(2) ) return []
-  if ( (n).div(grid_size) as int != (n+consecutive-1).div(grid_size) as int ) return []
+  def consecutive_horizontal = { int n, int consecutive, int grid_size ->
+    if ( n >= grid_size.power(2) ) return []
+    if ( (n).div(grid_size) as int != (n+consecutive-1).div(grid_size) as int ) return []
 
-  ( n..n+consecutive-1).collect()
+    ( n..n+consecutive-1).collect()
+  }
+
+  def consecutive_vertical = { int n, int consecutive, int grid_size ->
+    if ( n + grid_size*(consecutive-1) >= grid_size.power(2) ) return []
+
+    (n..n + grid_size*(consecutive-1)).step(grid_size)
+  }
+
+  def consecutive_incline_upper_left = { int n, int consecutive, int grid_size ->
+    if ( n % grid_size >= grid_size - consecutive + 1 ) return []
+
+    def vertical = consecutive_vertical(n, consecutive, grid_size)
+    return [vertical, (0..consecutive)].transpose().collect { it.sum() }
+  }
+
+  def consecutive_incline_upper_right = { int n, int consecutive, int grid_size ->
+    if ( n % grid_size <= consecutive - 2 ) return []
+
+    def vertical = consecutive_vertical(n, consecutive, grid_size)
+    return [vertical, (0..-consecutive)].transpose().collect { it.sum() }
+  }
+
+  def product_of_each = { List<Integer> ns ->
+    ns.inject(1) { seed, n -> (seed * n) as long }
+  }
+
+  def run() {
+    def numbers = numbers_test_string.split(/\s/)[1..-1]
+                  .collect { it.toString().toInteger()  }
+
+    def grid_size = 20
+    def consecutive = 4
+
+    def max_all_directions = number_grid(grid_size)
+            .collect { n ->
+              [consecutive_horizontal(n, consecutive, grid_size),
+               consecutive_vertical(n, consecutive, grid_size),
+               consecutive_incline_upper_left(n, consecutive, grid_size),
+               consecutive_incline_upper_right(n, consecutive, grid_size)] }
+            .flatten().collate(4)
+            .collect { idx -> product_of_each( numbers[idx] ) }
+            .max()
+
+    assert max_all_directions == 70600674
+    println "answer=$max_all_directions"
+
+    assert (0..9).collect { consecutive_horizontal(it, 3, 3) } ==
+      [[0, 1, 2], [],[], [3, 4, 5], [],[], [6, 7, 8], [],[],[]]
+    assert (0..9).collect { consecutive_vertical(it, 3, 3) } ==
+      [[0, 3, 6], [1, 4, 7], [2, 5, 8], [],[],[],[],[],[],[]]
+    assert (0..9).collect { consecutive_incline_upper_right(it, 3, 3) } ==
+      [[],[], [2, 4, 6], [],[],[],[],[],[],[]]
+    assert (0..9).collect { consecutive_incline_upper_left(it, 3, 3) } ==
+      [[0, 4, 8], [],[],[],[],[],[],[],[],[]]
+
+    assert (0..16).collect { consecutive_horizontal(it, 3, 4) } == [
+      [0, 1, 2], [1, 2, 3], [],[],
+      [4, 5, 6], [5, 6, 7], [],[],
+      [8, 9, 10], [9, 10, 11], [],[],
+      [12, 13, 14], [13, 14, 15], [],[],[] ]
+
+    assert (0..16).collect { consecutive_vertical(it, 3, 4) } == [
+      [0, 4, 8],  [1, 5, 9],  [2, 6, 10],  [3, 7, 11],
+      [4, 8, 12], [5, 9, 13], [6, 10, 14], [7, 11, 15],
+      [],[],[],[],
+      [],[],[],[],[]]
+
+    assert (0..16).collect { consecutive_incline_upper_left(it, 3, 4) } == [
+      [0, 5, 10], [1, 6, 11],[],[],
+      [4, 9, 14], [5, 10, 15],[],[],
+      [],[],[],[],
+      [],[],[],[],[]]
+
+    assert (0..16).collect { consecutive_incline_upper_right(it, 3, 4) } == [
+      [],[],[2, 5, 8], [3, 6, 9],
+      [],[],[6, 9, 12], [7, 10, 13],
+      [],[],[],[],
+      [],[],[],[],[]]
+
+    assert (0..25).collect { consecutive_horizontal(it, 3, 5) } == [
+      [0, 1, 2], [1, 2, 3], [2, 3, 4],[],[],
+      [5, 6, 7], [6, 7, 8], [7, 8, 9],[],[],
+      [10, 11, 12], [11, 12, 13], [12, 13, 14],[],[],
+      [15, 16, 17], [16, 17, 18], [17, 18, 19],[],[],
+      [20, 21, 22], [21, 22, 23], [22, 23, 24],[],[],[]]
+
+    assert (0..25).collect { consecutive_vertical(it, 3, 5) } == [
+      [0, 5, 10],   [1, 6, 11],   [2, 7, 12],   [3, 8, 13],   [4, 9, 14],
+      [5, 10, 15],  [6, 11, 16],  [7, 12, 17],  [8, 13, 18],  [9, 14, 19],
+      [10, 15, 20], [11, 16, 21], [12, 17, 22], [13, 18, 23], [14, 19, 24],
+      [],[],[],[],[],
+      [],[],[],[],[],[]]
+
+    assert (0..25).collect { consecutive_incline_upper_left(it, 3, 5) } == [
+      [0, 6, 12], [1, 7, 13], [2, 8, 14],[],[],
+      [5, 11, 17], [6, 12, 18], [7, 13, 19],[],[],
+      [10, 16, 22], [11, 17, 23], [12, 18, 24],[],[],
+      [],[],[],[],[],
+      [],[],[],[],[],[]]
+
+    assert (0..25).collect { consecutive_incline_upper_right(it, 3, 5) } == [
+      [],[],[2, 6, 10], [3, 7, 11], [4, 8, 12],
+      [],[],[7, 11, 15], [8, 12, 16], [9, 13, 17],
+      [],[],[12, 16, 20], [13, 17, 21], [14, 18, 22],
+      [],[],[],[],[],
+      [],[],[],[],[],[]]
+
+    assert [0, 66].collect { consecutive_incline_upper_left(it, 4, 10) } ==
+      [[0, 11, 22, 33], [66, 77, 88, 99]]
+
+    assert [3, 69].collect { consecutive_incline_upper_right(it, 4, 10) } ==
+      [[3, 12, 21, 30], [69, 78, 87, 96]]
+
+    assert [0, 69].collect { consecutive_vertical(it, 4, 10) } ==
+      [[0, 10, 20, 30], [69, 79, 89, 99]]
+
+    assert [0, 336].collect { consecutive_incline_upper_left(it, 4, 20) } ==
+      [[0, 21, 42, 63], [336, 357, 378, 399]]
+
+    println "tests pass"
+  }
 }
-
-def consecutive_vertical = { int n, int consecutive, int grid_size ->
-  if ( n + grid_size*(consecutive-1) >= grid_size.power(2) ) return []
-
-  (n..n + grid_size*(consecutive-1)).step(grid_size)
-}
-
-def consecutive_incline_upper_left = { int n, int consecutive, int grid_size ->
-  if ( n % grid_size >= grid_size - consecutive + 1 ) return []
-
-  vertical = consecutive_vertical(n, consecutive, grid_size)
-  return [vertical, (0..consecutive)].transpose().collect { it.sum() }
-}
-
-def consecutive_incline_upper_right = { int n, int consecutive, int grid_size ->
-  if ( n % grid_size <= consecutive - 2 ) return []
-
-  vertical = consecutive_vertical(n, consecutive, grid_size)
-  return [vertical, (0..-consecutive)].transpose().collect { it.sum() }
-}
-
-def product_of_each = { List<Integer> ns ->
-  ns.inject(1) { seed, n -> (seed * n) as long }
-}
-
-def numbers = numbers_test_string.split(/\s/)[1..-1]
-              .collect { it.toString().toInteger()  }
-
-def grid_size = 20
-def consecutive = 4
-
-def max_all_directions = number_grid(grid_size)
-        .collect { n ->
-          [consecutive_horizontal(n, consecutive, grid_size),
-           consecutive_vertical(n, consecutive, grid_size),
-           consecutive_incline_upper_left(n, consecutive, grid_size),
-           consecutive_incline_upper_right(n, consecutive, grid_size)] }
-        .flatten().collate(4)
-        .collect { idx -> product_of_each( numbers[idx] ) }
-        .max()
-
-assert max_all_directions == 70600674
-println "answer=$max_all_directions"
-
-
-
-
-
-
-
-
-
-assert (0..9).collect { consecutive_horizontal(it, 3, 3) } ==
-  [[0, 1, 2], [],[], [3, 4, 5], [],[], [6, 7, 8], [],[],[]]
-assert (0..9).collect { consecutive_vertical(it, 3, 3) } ==
-  [[0, 3, 6], [1, 4, 7], [2, 5, 8], [],[],[],[],[],[],[]]
-assert (0..9).collect { consecutive_incline_upper_right(it, 3, 3) } ==
-  [[],[], [2, 4, 6], [],[],[],[],[],[],[]]
-assert (0..9).collect { consecutive_incline_upper_left(it, 3, 3) } ==
-  [[0, 4, 8], [],[],[],[],[],[],[],[],[]]
-
-assert (0..16).collect { consecutive_horizontal(it, 3, 4) } == [
-  [0, 1, 2], [1, 2, 3], [],[],
-  [4, 5, 6], [5, 6, 7], [],[],
-  [8, 9, 10], [9, 10, 11], [],[],
-  [12, 13, 14], [13, 14, 15], [],[],[] ]
-
-assert (0..16).collect { consecutive_vertical(it, 3, 4) } == [
-  [0, 4, 8],  [1, 5, 9],  [2, 6, 10],  [3, 7, 11],
-  [4, 8, 12], [5, 9, 13], [6, 10, 14], [7, 11, 15],
-  [],[],[],[],
-  [],[],[],[],[]]
-
-assert (0..16).collect { consecutive_incline_upper_left(it, 3, 4) } == [
-  [0, 5, 10], [1, 6, 11],[],[],
-  [4, 9, 14], [5, 10, 15],[],[],
-  [],[],[],[],
-  [],[],[],[],[]]
-
-assert (0..16).collect { consecutive_incline_upper_right(it, 3, 4) } == [
-  [],[],[2, 5, 8], [3, 6, 9],
-  [],[],[6, 9, 12], [7, 10, 13],
-  [],[],[],[],
-  [],[],[],[],[]]
-
-assert (0..25).collect { consecutive_horizontal(it, 3, 5) } == [
-  [0, 1, 2], [1, 2, 3], [2, 3, 4],[],[],
-  [5, 6, 7], [6, 7, 8], [7, 8, 9],[],[],
-  [10, 11, 12], [11, 12, 13], [12, 13, 14],[],[],
-  [15, 16, 17], [16, 17, 18], [17, 18, 19],[],[],
-  [20, 21, 22], [21, 22, 23], [22, 23, 24],[],[],[]]
-
-assert (0..25).collect { consecutive_vertical(it, 3, 5) } == [
-  [0, 5, 10],   [1, 6, 11],   [2, 7, 12],   [3, 8, 13],   [4, 9, 14],
-  [5, 10, 15],  [6, 11, 16],  [7, 12, 17],  [8, 13, 18],  [9, 14, 19],
-  [10, 15, 20], [11, 16, 21], [12, 17, 22], [13, 18, 23], [14, 19, 24],
-  [],[],[],[],[],
-  [],[],[],[],[],[]]
-
-assert (0..25).collect { consecutive_incline_upper_left(it, 3, 5) } == [
-  [0, 6, 12], [1, 7, 13], [2, 8, 14],[],[],
-  [5, 11, 17], [6, 12, 18], [7, 13, 19],[],[],
-  [10, 16, 22], [11, 17, 23], [12, 18, 24],[],[],
-  [],[],[],[],[],
-  [],[],[],[],[],[]]
-
-assert (0..25).collect { consecutive_incline_upper_right(it, 3, 5) } == [
-  [],[],[2, 6, 10], [3, 7, 11], [4, 8, 12],
-  [],[],[7, 11, 15], [8, 12, 16], [9, 13, 17],
-  [],[],[12, 16, 20], [13, 17, 21], [14, 18, 22],
-  [],[],[],[],[],
-  [],[],[],[],[],[]]
-
-assert [0, 66].collect { consecutive_incline_upper_left(it, 4, 10) } ==
-  [[0, 11, 22, 33], [66, 77, 88, 99]]
-
-assert [3, 69].collect { consecutive_incline_upper_right(it, 4, 10) } ==
-  [[3, 12, 21, 30], [69, 78, 87, 96]]
-
-assert [0, 69].collect { consecutive_vertical(it, 4, 10) } ==
-  [[0, 10, 20, 30], [69, 79, 89, 99]]
-
-assert [0, 336].collect { consecutive_incline_upper_left(it, 4, 20) } ==
-  [[0, 21, 42, 63], [336, 357, 378, 399]]
-
-println "tests pass"

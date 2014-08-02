@@ -12,29 +12,40 @@
 // b and c are two complimentary numbers such that:
 //    b + c = 1000 - a
 
-def pythagorean_triplet(int a, int b, int c) {
-  a.power(2) + b.power(2) == c.power(2)
-}
 
-assert pythagorean_triplet(3, 4, 5) == true
+package project.euler.problems
 
-def sum = 1000
-def triplets
-def duration = Benchmark.run {
-  triplets = 
-  (1..sum).findResult { a ->
-    def half = (sum - a).div(2) as int
-    (a+1..a+1+half).findResult { b ->
-      def c = sum - a - b
-      if ( c > 0 && pythagorean_triplet(a, b, c) ) return [a,b,c]
+class Problem_09 {
+  static void main(String[] args) {
+    new Problem_09().run()
+  }
+
+  def pythagorean_triplet(int a, int b, int c) {
+    a.power(2) + b.power(2) == c.power(2)
+  }
+
+  def run() {
+    assert pythagorean_triplet(3, 4, 5) == true
+
+    def sum = 1000
+    def triplets
+    def duration = Benchmark.run {
+      triplets = 
+      (1..sum).findResult { a ->
+        def half = (sum - a).div(2) as int
+        (a+1..a+1+half).findResult { b ->
+          def c = sum - a - b
+          if ( c > 0 && pythagorean_triplet(a, b, c) ) return [a,b,c]
+        }
+      }
     }
+
+    def answer = triplets.inject { p, n -> p * n }
+    assert answer == 31875000
+    println "tests pass"
+
+    println "triplets=${triplets}"
+    println "benchmark: ${duration} ms"
+    println "answer=$answer"
   }
 }
-
-def answer = triplets.inject { p, n -> p * n }
-assert answer == 31875000
-println "tests pass"
-
-println "triplets=${triplets}"
-println "benchmark: ${duration} ms"
-println "answer=$answer"

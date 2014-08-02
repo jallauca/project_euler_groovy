@@ -9,37 +9,47 @@
 // Iterate x and y, where x in numbers and y in numbers in descending order,
 // so that the first x*y that is palindrome means returning the highest
 
-def n_digit_numbers(int n) {
-  (10.power(n-1)..<10.power(n))
-}
+package project.euler.problems
 
-def is_palindrome(int n) {
-  n.toString() == n.toString().reverse()
-}
+class Problem_04 {
+  static void main(String[] args) {
+    new Problem_04().run()
+  }
 
-def find_each_palindrome_of_products(List<Integer> numbers) {
-  (numbers.size()-1..<0).collect { int x ->
-    palindrome = (x-1..0).findResult { int y ->
-      product = numbers[x] * numbers[y]
-      is_palindrome(product) ? product : null
+  def n_digit_numbers(int n) {
+    (10.power(n-1)..<10.power(n))
+  }
+
+  def is_palindrome(int n) {
+    n.toString() == n.toString().reverse()
+  }
+
+  def find_each_palindrome_of_products(List<Integer> numbers) {
+    (numbers.size()-1..<0).collect { int x ->
+      def palindrome = (x-1..0).findResult { int y ->
+        def product = numbers[x] * numbers[y]
+        is_palindrome(product) ? product : null
+      }
+      palindrome ?: 0
     }
-    palindrome ?: 0
+  }
+
+  def run() {
+    assert is_palindrome(1)
+    assert !is_palindrome(10)
+    assert is_palindrome(101)
+    assert !is_palindrome(5010)
+    assert is_palindrome(50105)
+
+    def two_digit_numbers = n_digit_numbers(2)
+    def three_digit_numbers = n_digit_numbers(3)
+
+    assert find_each_palindrome_of_products( two_digit_numbers ).max() == 9009
+    assert find_each_palindrome_of_products( three_digit_numbers ).max() == 906609
+
+    println "tests pass"
+
+    def answer = find_each_palindrome_of_products( three_digit_numbers ).max()
+    println "answer=$answer"
   }
 }
-
-assert is_palindrome(1)
-assert !is_palindrome(10)
-assert is_palindrome(101)
-assert !is_palindrome(5010)
-assert is_palindrome(50105)
-
-def two_digit_numbers = n_digit_numbers(2)
-def three_digit_numbers = n_digit_numbers(3)
-
-assert find_each_palindrome_of_products( two_digit_numbers ).max() == 9009
-assert find_each_palindrome_of_products( three_digit_numbers ).max() == 906609
-
-println "tests pass"
-
-def answer = find_each_palindrome_of_products( three_digit_numbers ).max()
-println "answer=$answer"

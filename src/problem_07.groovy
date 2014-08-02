@@ -4,14 +4,19 @@
 
 // What is the 10 001st prime number?
 
+package project.euler.problems
 
-int prime
-def duration = Benchmark.run {
-  prime = PrimeNumber.n_primes(10001)[-1]
-  assert prime == 104743
+class Problem_07 {
+  static void main(String[] args) {
+    int prime
+    def duration = Benchmark.run {
+      prime = PrimeNumber.n_primes(10001)[-1]
+      assert prime == 104743
+    }
+
+    println "tests pass"
+
+    println "Big number benchmark: ${duration} ms"
+    println "answer=$prime"
+  }
 }
-
-println "tests pass"
-
-println "Big number benchmark: ${duration} ms"
-println "answer=$prime"
