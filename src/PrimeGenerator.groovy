@@ -15,42 +15,29 @@
 package project.euler.problems
 
 class PrimeGenerator implements Iterator<Long> {
-    def primes = [2L,3L]
-    def position = 0;
+  def primes = [2L,3L]
+  def position = 0;
 
-    public boolean hasNext() {
-        return true;
-    }
+  public boolean hasNext() {
+    return true;
+  }
 
-    public Long next() {
-        primes << generate_next()
-        return primes[position++]
-    }
+  public Long next() {
+    primes << generate_next()
+    return primes[position++]
+  }
 
-    private Long generate_next() {
-        for( long n = primes[-1] + 2; ; n += 2 ) {
-            def prime = true
-            for ( int j = 1; primes[j] <= Math.sqrt(n); j++ ) {
-                if ( n % primes[j] == 0 ) { prime = false; break }
-            }
-            if ( prime ) return n
+  private Long generate_next() {
+    for( long n = primes[-1] + 2; ; n += 2 ) {
+        def prime = true
+        for ( int j = 1; primes[j] <= Math.sqrt(n); j++ ) {
+            if ( n % primes[j] == 0 ) { prime = false; break }
         }
+        if ( prime ) return n
     }
+  }
 
-    public void remove(){
-        throw new UnsupportedOperationException(
-            "Remove is not supported on generators");
-   }
-
-    public static void main(String[] args) {
-        new PrimeGeneratorTests().run()
-    }
-}
-
-class PrimeGeneratorTests {
-    public static run() {
-        def c = 1
-        assert new PrimeGenerator().takeWhile { c++ <= 5 }.collect() == [2,3,5,7,11]
-        println "tests pass"
-    }
+  public void remove() {
+    throw new UnsupportedOperationException("Remove is not supported on generators");
+  }
 }
