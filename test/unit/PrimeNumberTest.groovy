@@ -4,24 +4,29 @@ import org.junit.*
 
 class PrimeNumberTests {
     @Test
-    public find_prime_factors_produce_correct_results() {
+    public find_prime_factors() {
         assert PrimeNumber.find_prime_factors(100) == [2,5]
     }
 
     @Test
-    public prime_up_to_produce_correct_results() {
+    public primes_up_to() {
+        assert PrimeNumber.primes_up_to(1) == []
         assert PrimeNumber.primes_up_to(2) == [2]
         assert PrimeNumber.primes_up_to(3) == [2,3]
         assert PrimeNumber.primes_up_to(5) == [2,3,5]
+        assert PrimeNumber.primes_up_to(25) == [2,3,5,7,11,13,17,19,23]
     }
 
     @Test
-    public n_primes_produce_correct_results() {
-        assert PrimeNumber.n_primes(10) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+    public n_primes() {
+        assert PrimeNumber.n_primes(-1) == []
+        assert PrimeNumber.n_primes(0) == []
+        assert PrimeNumber.n_primes(1) == [2]
+        assert PrimeNumber.n_primes(10) == [2,3,5,7,11,13,17,19,23,29]
     }
 
     @Test
-    public prime_factors_produce_correct_results() {
+    public prime_factors() {
         assert PrimeNumber.prime_factors(1)  == []
         assert PrimeNumber.prime_factors(2)  == [2]
         assert PrimeNumber.prime_factors(3)  == [3]
@@ -36,7 +41,7 @@ class PrimeNumberTests {
     }
 
     @Test
-    public prime_upto_1015_produce_correct_results() {
+    public prime_upto_1015() {
         // http://primes.utm.edu/lists/small/1000.txt
         def primes_test_string = """
               2      3      5      7     11     13     17     19     23     29

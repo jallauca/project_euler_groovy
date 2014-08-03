@@ -4,7 +4,7 @@ import org.junit.*
 
 class Problem_11Test {
   @Test
-  void consecutive_3_by_3_produces_correct_results() {
+  void consecutive_3_by_3_and_3_consecutive() {
     assert (0..9).collect { new Problem_11().consecutive_horizontal(it, 3, 3) } ==
       [[0, 1, 2], [],[], [3, 4, 5], [],[], [6, 7, 8], [],[],[]]
     assert (0..9).collect { new Problem_11().consecutive_vertical(it, 3, 3) } ==
@@ -16,7 +16,7 @@ class Problem_11Test {
   }
 
   @Test
-  void consecutive_3_by_4_produces_correct_results() {
+  void consecutive_3_by_3_and_4_consecutive() {
     assert (0..16).collect { new Problem_11().consecutive_horizontal(it, 3, 4) } == [
       [0, 1, 2], [1, 2, 3], [],[],
       [4, 5, 6], [5, 6, 7], [],[],
@@ -43,7 +43,7 @@ class Problem_11Test {
   }
 
   @Test
-  void consecutive_3_by_5_produces_correct_results() {
+  void consecutive_3_by_3_and_5_consecutive() {
     assert (0..25).collect { new Problem_11().consecutive_horizontal(it, 3, 5) } == [
       [0, 1, 2], [1, 2, 3], [2, 3, 4],[],[],
       [5, 6, 7], [6, 7, 8], [7, 8, 9],[],[],
@@ -74,7 +74,7 @@ class Problem_11Test {
   }
 
   @Test
-  void consecutive_4_by_10_produces_correct_results() {
+  void consecutive_4_by_4_and_10_consecutive() {
     assert [0, 66].collect { new Problem_11().consecutive_incline_upper_left(it, 4, 10) } ==
       [[0, 11, 22, 33], [66, 77, 88, 99]]
 
@@ -86,7 +86,7 @@ class Problem_11Test {
   }
 
   @Test
-  void consecutive_4_by_20_produces_correct_results() {
+  void consecutive_4_by_4_and_20_consecutive() {
     assert [0, 336].collect { new Problem_11().consecutive_incline_upper_left(it, 4, 20) } ==
       [[0, 21, 42, 63], [336, 357, 378, 399]]
   }
