@@ -7,10 +7,4 @@ class Benchmark {
       def now = System.currentTimeMillis()
       now - start
     }
-
-    static void main(String[] args) {
-        new Benchmark().run {
-            println "tests pass"
-        }
-    }
 }
