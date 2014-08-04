@@ -21,6 +21,6 @@ from=$1
 to=${2:-$1}
 
 for i in $(seq $from $to) ; do
-  printf "Problem $i: "
+  printf "Problem %2s: " $i
   java -cp ${classpath} $(filename $i)
 done
