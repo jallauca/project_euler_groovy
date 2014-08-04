@@ -1,6 +1,5 @@
 // Summation of primes (Problem 10) (https://projecteuler.net/problem=10)
 
-
 package project.euler.problems
 
 class Problem_10 {

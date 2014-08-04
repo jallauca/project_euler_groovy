@@ -1,3 +1,9 @@
+// Largest product in a grid (Problem 11) (https://projecteuler.net/problem=11)
+
+// Solution tips:
+// For every position in the grid find the consecutive horizontal, vertical,
+// and inclined positions and multiply their factors.
+
 package project.euler.problems
 
 class Problem_11 {
