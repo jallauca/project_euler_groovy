@@ -15,7 +15,7 @@
 package project.euler.problems
 
 class PrimeGenerator implements Iterator<Long> {
-  def primes = [2L,3L]
+  static primes = [2L,3L]
   def position = 0;
 
   public boolean hasNext() {
@@ -23,7 +23,10 @@ class PrimeGenerator implements Iterator<Long> {
   }
 
   public Long next() {
-    primes << generate_next()
+    if ( position + 1 >= primes.size() ) {
+      primes << generate_next()
+      // println("prime: ${primes[-1]}")
+    }
     return primes[position++]
   }
 
