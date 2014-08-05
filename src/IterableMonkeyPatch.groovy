@@ -12,6 +12,7 @@ class IterableMonkeyPatch {
       delegate
     }
 
+    // http://rosettacode.org/wiki/Combinations
     Iterable.metaClass.kCombinations = { int k1 ->
       def comb
       comb = { m, list ->
