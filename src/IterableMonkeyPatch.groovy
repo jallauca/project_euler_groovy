@@ -3,16 +3,28 @@ package project.euler.problems
 class IterableMonkeyPatch {
   static apply() {
     Iterable.metaClass.eachConsecutive = { int n ->
-        (0..delegate.size()-n).collect{ delegate[it..it+n-1] }
+      (0..delegate.size()-n).collect{ delegate[it..it+n-1] }
     }
 
     Iterable.metaClass.tee = { closure ->
-        if ( closure ) println closure(delegate)
-        else println delegate
-        delegate
+      if ( closure ) println closure(delegate)
+      else println delegate
+      delegate
     }
-    assert [1,2,3,4,5,6].eachConsecutive(2) == [[1,2], [2,3], [3,4], [4,5], [5,6]]
-    assert [1,2,3,4,5,6].eachConsecutive(3) == [[1,2,3], [2,3,4], [3,4,5], [4,5,6]]
-    assert [1,2,3,4,5,6].eachConsecutive(4) == [[1,2,3,4], [2,3,4,5], [3,4,5,6]]
+
+    Iterable.metaClass.kCombinations = { int k1 ->
+      def comb
+      comb = { m, list ->
+        def n = list.size()
+        m == 0 ?
+          [[]] :
+          (0..(n-m)).inject([]) { newlist, k ->
+            def sublist = (k+1 == n) ? [] : list[(k+1)..<n]
+            newlist += comb(m-1, sublist).collect { [list[k]] + it }
+          }
+      }
+
+      comb(k1, delegate)
+    }
   }
 }
