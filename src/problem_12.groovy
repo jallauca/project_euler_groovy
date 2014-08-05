@@ -26,6 +26,55 @@ class Problem_12 {
     new Problem_12().run()
   }
 
+  def factorial(int n) {
+    if ( n == 0 ) return 1 
+    (1..n).inject(1) { product, value -> product * value }
+  }
+
+  def product_of_each = { List<Integer> ns ->
+    ns.inject(1) { seed, n -> (seed * n) as long }
+  }
+
   def run() {
+    IterableMonkeyPatch.apply()
+
+    def generator = new TriangleNumberGenerator()
+    def answer
+    def attempts = 0
+    def possible_combinations_map = [:]
+    def divisorCount = 200 
+
+    println("attempts (in thousands) -> ")
+    while ( !answer ) {
+      attempts += 1
+
+      def triangleNumber = generator.next()
+      def prime_factors = PrimeNumber.factors(triangleNumber)
+      def n = prime_factors.size()
+      def possible_combinations = possible_combinations_map[n]
+
+      if ( !possible_combinations ) {
+        possible_combinations = 
+          (1..n).collect { k ->
+            factorial(n).div(factorial(k) * factorial(n - k))
+          }.sum()
+        possible_combinations_map[n] = possible_combinations
+      }
+
+      if ( possible_combinations >= divisorCount ) {
+        def factors = (1..n).collect { k ->
+          prime_factors.kCombinations(k)
+        }
+        def products = factors.collect {
+          klist -> klist.collect { n_factors -> product_of_each(n_factors) }
+        }.flatten() as Set
+
+        if ( products.size() >= divisorCount ) { answer = triangleNumber; println(products.toList().sort()) }
+      }
+
+      if ( attempts % 1000 == 0 ) { println("$attempts attempts") }
+    }
+
+    println("\nanswer=$answer")
   }
 }

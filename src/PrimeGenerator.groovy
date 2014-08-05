@@ -25,7 +25,6 @@ class PrimeGenerator implements Iterator<Long> {
   public Long next() {
     if ( position + 1 >= primes.size() ) {
       primes << generate_next()
-      // println("prime: ${primes[-1]}")
     }
     return primes[position++]
   }
