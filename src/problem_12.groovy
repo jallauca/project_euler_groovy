@@ -60,10 +60,9 @@ class Problem_12 {
   int possibleFactors(int n) {
     def possible_combinations = possible_combinations_map[n]
     if ( !possible_combinations ) {
-      possible_combinations =
-        (1..n).collect { k ->
-          factorial(n).div(factorial(k) * factorial(n - k))
-        }.sum()
+      possible_combinations = (1..n).inject(0) { acc, k ->
+          acc + factorial(n).div(factorial(k) * factorial(n - k))
+        }
       possible_combinations_map[n] = possible_combinations
     }
     return possible_combinations
