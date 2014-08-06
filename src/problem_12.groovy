@@ -41,8 +41,8 @@ class Problem_12 {
       def triangleNumber = generator.next()
       def prime_factors = factors(triangleNumber)
 
-      def possible_factors = possibleFactors( prime_factors.size() )
-      if ( possible_factors >= divisorCount ) {
+      def combinationIsUnique = factorsCombinationIsUnique(prime_factors)
+      if ( combinationIsUnique ) {
         def factors = allFactorsFromPrimeFactors(prime_factors)
         if ( factors.size() >= divisorCount ) { answer = triangleNumber }
       }
@@ -66,6 +66,14 @@ class Problem_12 {
       possible_combinations_map[n] = possible_combinations
     }
     return possible_combinations
+  }
+
+  def uniqueCounts = [""] as Set
+  boolean factorsCombinationIsUnique(List<Long> prime_factors) {
+    def counts = prime_factors.countBy { it }.collect { k, v -> v }.sort().toString()
+    def isUnique = !(counts in uniqueCounts)
+    if (isUnique) { uniqueCounts << counts }
+    isUnique
   }
 
   long factorial(int n) {
