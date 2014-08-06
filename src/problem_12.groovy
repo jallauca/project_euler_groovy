@@ -28,9 +28,8 @@ class Problem_12 {
 
   static void main(String[] args) {
     def answer = new Problem_12().run()
-
     assert answer==76576500
-    println("\nanswer=$answer")
+    println("answer=$answer")
   }
 
   def run() {
@@ -48,7 +47,6 @@ class Problem_12 {
         if ( factors.size() >= divisorCount ) { answer = triangleNumber }
       }
     }
-
     answer
   }
 
@@ -93,7 +91,7 @@ class Problem_12 {
         klist -> klist.collect { n_factors -> product_of_each(n_factors) }
       }.flatten() as Set
     }
-    println("${totalTime} ms, ${totalTime2} ms, ${totalTime + totalTime2}")
+    println("${totalTime} ms, ${totalTime2} ms, ${totalTime + totalTime2} ms")
     factors
   }
 }
