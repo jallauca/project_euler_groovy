@@ -27,7 +27,10 @@ class Problem_12 {
   }
 
   static void main(String[] args) {
-    new Problem_12().run()
+    def answer = new Problem_12().run()
+
+    assert answer==76576500
+    println("\nanswer=$answer")
   }
 
   def run() {
@@ -46,13 +49,13 @@ class Problem_12 {
       }
     }
 
-    println("\nanswer=$answer")
+    answer
   }
 
   def static factors(long n) {
     if ( n < 1 ) return []
     if ( n == 1 ) return [1]
-    [1] + PrimeNumber.prime_factors(n) + [n]
+    PrimeNumber.prime_factors(n)
   }
 
   def possible_combinations_map = [:]
