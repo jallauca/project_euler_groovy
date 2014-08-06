@@ -30,15 +30,6 @@ class Problem_12 {
     new Problem_12().run()
   }
 
-  def factorial(int n) {
-    if ( n == 0 ) return 1
-    (1..n).inject(1) { product, value -> product * value }
-  }
-
-  def product_of_each = { List<Integer> ns ->
-    ns.inject(1) { seed, n -> (seed * n) as long }
-  }
-
   def run() {
     def generator = new TriangleNumberGenerator()
     def answer
@@ -46,7 +37,7 @@ class Problem_12 {
 
     while ( !answer ) {
       def triangleNumber = generator.next()
-      def prime_factors = PrimeNumber.factors(triangleNumber)
+      def prime_factors = factors(triangleNumber)
 
       def possible_factors = possibleFactors( prime_factors.size() )
       if ( possible_factors >= divisorCount ) {
@@ -56,6 +47,12 @@ class Problem_12 {
     }
 
     println("\nanswer=$answer")
+  }
+
+  def static factors(long n) {
+    if ( n < 1 ) return []
+    if ( n == 1 ) return [1]
+    [1] + PrimeNumber.prime_factors(n) + [n]
   }
 
   def possible_combinations_map = [:]
@@ -71,20 +68,28 @@ class Problem_12 {
     return possible_combinations
   }
 
+  def factorial(int n) {
+    if ( n == 0 ) return 1
+    (1..n).inject(1) { product, value -> product * value }
+  }
+
+  def product_of_each = { List<Integer> ns ->
+    ns.inject(1) { seed, n -> (seed * n) as long }
+  }
+
   def totalTime = 0, totalTime2 = 0
   def allFactorsFromPrimeFactors(List<Long> prime_factors) {
-    def start = System.currentTimeMillis()
-    def factors_combinations = (1..prime_factors.size()).collect { k ->
-      prime_factors.kCombinations(k)
+    def factors_combinations, factors
+    totalTime += Benchmark.run {
+      factors_combinations = (1..prime_factors.size()).collect { k ->
+        prime_factors.kCombinations(k)
+      }
     }
-    def now = System.currentTimeMillis()
-    totalTime += now - start
-    start = now
-    def factors = factors_combinations.collect {
-      klist -> klist.collect { n_factors -> product_of_each(n_factors) }
-    }.flatten() as Set
-    now = System.currentTimeMillis()
-    totalTime2 += now - start
+    totalTime2 += Benchmark.run {
+      factors = factors_combinations.collect {
+        klist -> klist.collect { n_factors -> product_of_each(n_factors) }
+      }.flatten() as Set
+    }
     println("${totalTime} ms, ${totalTime2} ms, ${totalTime + totalTime2}")
     factors
   }

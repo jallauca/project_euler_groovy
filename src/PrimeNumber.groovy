@@ -29,10 +29,4 @@ class PrimeNumber {
 
     prime_factors_recrsv(n)
   }
-
-  def static factors(long n) {
-    if ( n < 1 ) return []
-    if ( n == 1 ) return [1]
-    PrimeNumber.prime_factors(n)
-  }
 }

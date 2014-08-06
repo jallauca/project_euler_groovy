@@ -69,19 +69,4 @@ class PrimeNumberTest {
 
     assert PrimeNumber.primes_up_to(1015) == expected_primes
   }
-
-  @Test
-  void factors() {
-    assert PrimeNumber.factors(-1) == []
-    assert PrimeNumber.factors(0)  == []
-    assert PrimeNumber.factors(1)  == [1]
-    assert PrimeNumber.factors(2)  == [1,2]
-    assert PrimeNumber.factors(3)  == [1,3]
-    assert PrimeNumber.factors(4)  == [1,2,4]
-    assert PrimeNumber.factors(6)  == [1,2,3,6]
-    assert PrimeNumber.factors(10) == [1,2,5,10]
-    assert PrimeNumber.factors(15) == [1,3,5,15]
-    assert PrimeNumber.factors(21) == [1,3,7,21]
-    assert PrimeNumber.factors(28) == [1,2,4,7,14,28]
-  }
 }
