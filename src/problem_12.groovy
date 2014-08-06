@@ -49,8 +49,7 @@ class Problem_12 {
 
       def triangleNumber = generator.next()
       def prime_factors = PrimeNumber.factors(triangleNumber)
-      def n = prime_factors.size()
-      def possible_factors = possibleFactors(n)
+      def possible_factors = possibleFactors(prime_factors.size())
 
       if ( possible_factors >= divisorCount ) {
         def factors = allFactorsFromPrimeFactors(prime_factors)
