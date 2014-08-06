@@ -8,9 +8,12 @@ class Problem_10 {
   }
 
   def run() {
-    long answer
+    long answer = 0
     def duration = Benchmark.run {
-      answer = PrimeNumber.primes_up_to(2000000).sum()
+      def generator = new PrimeGenerator()
+      def prime
+      while ( (prime = generator.next()) <= 2000000 )
+        answer += prime
     }
 
     print "answer=$answer"
