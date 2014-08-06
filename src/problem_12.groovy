@@ -80,18 +80,14 @@ class Problem_12 {
 
   def totalTime = 0, totalTime2 = 0
   def allFactorsFromPrimeFactors(List<Long> prime_factors) {
-    def factors_combinations, factors
-    totalTime += Benchmark.run {
+    def factors_combinations, factors = []
+    def duration = Benchmark.run {
       factors_combinations = (1..prime_factors.size()).collect { k ->
-        prime_factors.kCombinations(k)
+        prime_factors.kCombinations(k).each { factors << product_of_each(it) }
       }
     }
-    totalTime2 += Benchmark.run {
-      factors = factors_combinations.collect {
-        klist -> klist.collect { n_factors -> product_of_each(n_factors) }
-      }.flatten() as Set
-    }
-    println("${totalTime} ms, ${totalTime2} ms, ${totalTime + totalTime2} ms")
-    factors
+    totalTime += duration
+    println("${duration} ms, ${totalTime} ms")
+    factors as Set
   }
 }
