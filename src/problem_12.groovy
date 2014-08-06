@@ -42,7 +42,6 @@ class Problem_12 {
     def answer
     def attempts = 0
     def divisorCount = 500
-    def totalTime = 0, totalTime2 = 0
 
     println("attempts (in thousands) -> ")
     while ( !answer ) {
@@ -54,21 +53,8 @@ class Problem_12 {
       def possible_factors = possibleFactors(n)
 
       if ( possible_factors >= divisorCount ) {
-        def start = System.currentTimeMillis()
-        def factors = (1..n).collect { k ->
-          prime_factors.kCombinations(k)
-        }
-        def now = System.currentTimeMillis()
-        totalTime += now - start
-        start = now
-        def products = factors.collect {
-          klist -> klist.collect { n_factors -> product_of_each(n_factors) }
-        }.flatten() as Set
-        now = System.currentTimeMillis()
-        totalTime2 += now - start
-        println("${totalTime} ms, ${totalTime2} ms, ${totalTime + totalTime2}")
-
-        if ( products.size() >= divisorCount ) { println(possible_factors); answer = triangleNumber }
+        def factors = allFactorsFromPrimeFactors(prime_factors)
+        if (factors.size() >= divisorCount ) { answer = triangleNumber }
       }
 
       if ( attempts % 1000 == 0 ) { println("$attempts attempts") }
@@ -88,5 +74,23 @@ class Problem_12 {
       possible_combinations_map[n] = possible_combinations
     }
     return possible_combinations
+  }
+
+  def totalTime = 0, totalTime2 = 0
+  def allFactorsFromPrimeFactors(List<Long> prime_factors) {
+    def start = System.currentTimeMillis()
+    def factors_combinations = (1..prime_factors.size()).collect { k ->
+      prime_factors.kCombinations(k)
+    }
+    def now = System.currentTimeMillis()
+    totalTime += now - start
+    start = now
+    def factors = factors_combinations.collect {
+      klist -> klist.collect { n_factors -> product_of_each(n_factors) }
+    }.flatten() as Set
+    now = System.currentTimeMillis()
+    totalTime2 += now - start
+    println("${totalTime} ms, ${totalTime2} ms, ${totalTime + totalTime2}")
+    factors
   }
 }
