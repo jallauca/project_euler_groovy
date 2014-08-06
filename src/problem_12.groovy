@@ -22,6 +22,10 @@
 package project.euler.problems
 
 class Problem_12 {
+  Problem_12() {
+    IterableMonkeyPatch.apply()
+  }
+
   static void main(String[] args) {
     new Problem_12().run()
   }
@@ -36,27 +40,19 @@ class Problem_12 {
   }
 
   def run() {
-    IterableMonkeyPatch.apply()
-
     def generator = new TriangleNumberGenerator()
     def answer
-    def attempts = 0
     def divisorCount = 500
 
-    println("attempts (in thousands) -> ")
     while ( !answer ) {
-      attempts += 1
-
       def triangleNumber = generator.next()
       def prime_factors = PrimeNumber.factors(triangleNumber)
-      def possible_factors = possibleFactors(prime_factors.size())
 
+      def possible_factors = possibleFactors( prime_factors.size() )
       if ( possible_factors >= divisorCount ) {
         def factors = allFactorsFromPrimeFactors(prime_factors)
-        if (factors.size() >= divisorCount ) { answer = triangleNumber }
+        if ( factors.size() >= divisorCount ) { answer = triangleNumber }
       }
-
-      if ( attempts % 1000 == 0 ) { println("$attempts attempts") }
     }
 
     println("\nanswer=$answer")
