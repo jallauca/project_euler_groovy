@@ -27,7 +27,7 @@ class Problem_12 {
   }
 
   def factorial(int n) {
-    if ( n == 0 ) return 1 
+    if ( n == 0 ) return 1
     (1..n).inject(1) { product, value -> product * value }
   }
 
@@ -41,7 +41,6 @@ class Problem_12 {
     def generator = new TriangleNumberGenerator()
     def answer
     def attempts = 0
-    def possible_combinations_map = [:]
     def divisorCount = 500
     def totalTime = 0, totalTime2 = 0
 
@@ -52,18 +51,9 @@ class Problem_12 {
       def triangleNumber = generator.next()
       def prime_factors = PrimeNumber.factors(triangleNumber)
       def n = prime_factors.size()
-      def possible_combinations = possible_combinations_map[n]
+      def possible_factors = possibleFactors(n)
 
-      if ( !possible_combinations ) {
-        possible_combinations =
-          (1..n).collect { k ->
-            factorial(n).div(factorial(k) * factorial(n - k))
-          }.sum()
-        possible_combinations_map[n] = possible_combinations
-      }
-
-      // if ( possible_combinations >= divisorCount ) {
-      if ( possible_combinations == 2047 ) {
+      if ( possible_factors >= divisorCount ) {
         def start = System.currentTimeMillis()
         def factors = (1..n).collect { k ->
           prime_factors.kCombinations(k)
@@ -78,12 +68,25 @@ class Problem_12 {
         totalTime2 += now - start
         println("${totalTime} ms, ${totalTime2} ms, ${totalTime + totalTime2}")
 
-        if ( products.size() >= divisorCount ) { println(possible_combinations); answer = triangleNumber }
+        if ( products.size() >= divisorCount ) { println(possible_factors); answer = triangleNumber }
       }
 
       if ( attempts % 1000 == 0 ) { println("$attempts attempts") }
     }
 
     println("\nanswer=$answer")
+  }
+
+  def possible_combinations_map = [:]
+  def int possibleFactors(n) {
+    def possible_combinations = possible_combinations_map[n]
+    if ( !possible_combinations ) {
+      possible_combinations =
+        (1..n).collect { k ->
+          factorial(n).div(factorial(k) * factorial(n - k))
+        }.sum()
+      possible_combinations_map[n] = possible_combinations
+    }
+    return possible_combinations
   }
 }
