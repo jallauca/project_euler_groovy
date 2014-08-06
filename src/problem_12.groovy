@@ -78,11 +78,11 @@ class Problem_12 {
     ns.inject(1) { seed, n -> (seed * n) as long }
   }
 
-  def totalTime = 0, totalTime2 = 0
+  def totalTime = 0
   def allFactorsFromPrimeFactors(List<Long> prime_factors) {
-    def factors_combinations, factors = []
+    def factors = []
     def duration = Benchmark.run {
-      factors_combinations = (1..prime_factors.size()).collect { k ->
+      def factors_combinations = (1..prime_factors.size()).collect { k ->
         prime_factors.kCombinations(k).each { factors << product_of_each(it) }
       }
     }
