@@ -42,7 +42,8 @@ class Problem_12 {
     def answer
     def attempts = 0
     def possible_combinations_map = [:]
-    def divisorCount = 200 
+    def divisorCount = 500
+    def totalTime = 0, totalTime2 = 0
 
     println("attempts (in thousands) -> ")
     while ( !answer ) {
@@ -54,22 +55,30 @@ class Problem_12 {
       def possible_combinations = possible_combinations_map[n]
 
       if ( !possible_combinations ) {
-        possible_combinations = 
+        possible_combinations =
           (1..n).collect { k ->
             factorial(n).div(factorial(k) * factorial(n - k))
           }.sum()
         possible_combinations_map[n] = possible_combinations
       }
 
-      if ( possible_combinations >= divisorCount ) {
+      // if ( possible_combinations >= divisorCount ) {
+      if ( possible_combinations == 2047 ) {
+        def start = System.currentTimeMillis()
         def factors = (1..n).collect { k ->
           prime_factors.kCombinations(k)
         }
+        def now = System.currentTimeMillis()
+        totalTime += now - start
+        start = now
         def products = factors.collect {
           klist -> klist.collect { n_factors -> product_of_each(n_factors) }
         }.flatten() as Set
+        now = System.currentTimeMillis()
+        totalTime2 += now - start
+        println("${totalTime} ms, ${totalTime2} ms, ${totalTime + totalTime2}")
 
-        if ( products.size() >= divisorCount ) { answer = triangleNumber; println(products.toList().sort()) }
+        if ( products.size() >= divisorCount ) { println(possible_combinations); answer = triangleNumber }
       }
 
       if ( attempts % 1000 == 0 ) { println("$attempts attempts") }
