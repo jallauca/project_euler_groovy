@@ -50,14 +50,14 @@ class Problem_12 {
     answer
   }
 
-  def static factors(long n) {
+  static List<Long> factors(long n) {
     if ( n < 1 ) return []
     if ( n == 1 ) return [1]
     PrimeNumber.prime_factors(n)
   }
 
   def possible_combinations_map = [:]
-  def int possibleFactors(n) {
+  int possibleFactors(int n) {
     def possible_combinations = possible_combinations_map[n]
     if ( !possible_combinations ) {
       possible_combinations =
@@ -69,25 +69,20 @@ class Problem_12 {
     return possible_combinations
   }
 
-  def factorial(int n) {
+  long factorial(int n) {
     if ( n == 0 ) return 1
     (1..n).inject(1) { product, value -> product * value }
   }
 
-  def product_of_each = { List<Integer> ns ->
+  long product_of_each(List<Integer> ns) {
     ns.inject(1) { seed, n -> (seed * n) as long }
   }
 
-  def totalTime = 0
-  def allFactorsFromPrimeFactors(List<Long> prime_factors) {
-    def factors = []
-    def duration = Benchmark.run {
-      def factors_combinations = (1..prime_factors.size()).collect { k ->
-        prime_factors.kCombinations(k).each { factors << product_of_each(it) }
-      }
+  Set<Long> allFactorsFromPrimeFactors(List<Long> prime_factors) {
+    List<Long> factors = []
+    (1..prime_factors.size()).each { k ->
+      prime_factors.kCombinations(k).each { factors << product_of_each(it) }
     }
-    totalTime += duration
-    println("${duration} ms, ${totalTime} ms")
     factors as Set
   }
 }
