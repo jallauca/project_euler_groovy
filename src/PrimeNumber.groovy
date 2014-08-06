@@ -15,13 +15,15 @@ class PrimeNumber {
   }
 
   def static prime_factors(long n) {
-    def primes = PrimeNumber.primes_up_to(n)
-
     def prime_factors_recrsv
     prime_factors_recrsv = { long dividend ->
       if ( dividend <= 1 ) return []
 
-      def prime = primes.find { prime -> dividend % prime == 0 }
+      def generator = new PrimeGenerator()
+      def prime
+      while( (prime = generator.next()) <= n ) {
+        if ( dividend % prime == 0 ) { break }
+      }
       [prime] + prime_factors_recrsv( dividend.div(prime) as long )
     }
 
