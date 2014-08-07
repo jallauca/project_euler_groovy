@@ -69,4 +69,19 @@ class PrimeNumberTest {
 
     assert PrimeNumber.primes_up_to(1015) == expected_primes
   }
+
+  @Test
+  void factors() {
+    assert PrimeNumber.factors(-1).toList() == []
+    assert PrimeNumber.factors(0).toList()  == []
+    assert PrimeNumber.factors(1).toList().sort()  == [1]
+    assert PrimeNumber.factors(2).toList().sort()  == [1,2]
+    assert PrimeNumber.factors(3).toList().sort()  == [1,3]
+    assert PrimeNumber.factors(4).toList().sort()  == [1,2,4]
+    assert PrimeNumber.factors(6).toList().sort()  == [1,2,3,6]
+    assert PrimeNumber.factors(10).toList().sort() == [1,2,5,10]
+    assert PrimeNumber.factors(15).toList().sort() == [1,3,5,15]
+    assert PrimeNumber.factors(21).toList().sort() == [1,3,7,21]
+    assert PrimeNumber.factors(28).toList().sort() == [1,2,4,7,14,28]
+  }
 }

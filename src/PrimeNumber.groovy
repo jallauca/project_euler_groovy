@@ -35,6 +35,7 @@ class PrimeNumber {
   }
 
   static Set<Long> factors(long n) {
+    IterableMonkeyPatch.apply()
     if ( n < 1 ) return []
     if ( n == 1 ) return [1]
 
