@@ -27,5 +27,9 @@ class IterableMonkeyPatch {
 
       comb(k1, delegate)
     }
+
+    Iterable.metaClass.product = {
+      delegate.inject(1) { seed, n -> (seed * n) as long }
+    }
   }
 }

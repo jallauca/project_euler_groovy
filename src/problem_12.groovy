@@ -80,8 +80,4 @@ class Problem_12 {
     if ( n == 0 ) return 1
     (1..n).inject(1) { product, value -> product * value }
   }
-
-  long product_of_each(List<Integer> ns) {
-    ns.inject(1) { seed, n -> (seed * n) as long }
-  }
 }
