@@ -48,24 +48,12 @@ class Problem_12 {
       def prime_factors = PrimeNumber.prime_factors(triangleNumber)
 
       def combinationIsUnique = factorsCombinationIsUnique(prime_factors)
-      if ( combinationIsUnique ) {
+      if ( prime_factors.size() > 8 && combinationIsUnique ) {
         def factors = PrimeNumber.factors(triangleNumber)
         if ( factors.size() >= divisorCount ) { answer = triangleNumber }
       }
     }
     answer
-  }
-
-  def possible_combinations_map = [:]
-  int possibleFactors(int n) {
-    def possible_combinations = possible_combinations_map[n]
-    if ( !possible_combinations ) {
-      possible_combinations = (1..n).inject(0) { acc, k ->
-          acc + factorial(n).div(factorial(k) * factorial(n - k))
-        }
-      possible_combinations_map[n] = possible_combinations
-    }
-    return possible_combinations
   }
 
   def uniqueCounts = [""] as Set
