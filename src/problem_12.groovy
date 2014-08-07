@@ -19,6 +19,41 @@
 
 // What is the value of the first triangle number to have over five hundred divisors?
 
+// Solution Tips:
+// From http://en.wikipedia.org/wiki/Prime_number:
+
+//   Fundamental theorem of arithmetic
+//   Main article: Fundamental theorem of arithmetic
+//   The fundamental theorem of arithmetic states that every integer larger than
+//   1 can be written as a product of one or more primes in a way that is unique
+//   except for the order of the prime factors.
+//   For example:
+
+//   23244	= 2 · 2 · 3 · 13 · 149
+//          = 2^2   · 3 · 13 · 149
+
+// Using the fundamental theorem of arithmetic, a number like 28 is written
+//    28    = 2 * 2 * 7
+//            2^2   * 7
+
+// I discovered that the factors of a number can be obtained from the prime
+// number factors by multiplying every number in the 1-k, 2-k, 3-k, ..., n-k
+// combinations, where n = number of prime factors
+
+// So, 28 has the following 1-k, 2-k, 3-k combinations out of its 3 prime factors:
+// 28 = [[[2],[2],[7]],           # 1-k
+//       [[2,2],[2,7],[2,7]],     # 2-k
+//       [[2,2,7]]]               # 3-k
+
+// The combinations' products are:
+// 28 = [[[2],[2],[7]],
+//       [[4],[14],[14]],
+//       [28]]
+
+// Therefore, the factors for 28, after removing duplicates and adding
+// number 1 (which is not prime) to the list, are:
+// 28 = [1,2,4,7,14,28]
+
 package project.euler.problems
 
 class Problem_12 {
