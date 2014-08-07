@@ -29,4 +29,20 @@ class PrimeNumber {
 
     prime_factors_recrsv(n)
   }
+
+  static long product_of_each(List<Integer> ns) {
+    ns.inject(1) { seed, n -> (seed * n) as long }
+  }
+
+  static Set<Long> factors(long n) {
+    if ( n < 1 ) return []
+    if ( n == 1 ) return [1]
+
+    def prime_factors = prime_factors(n)
+    def factors = [1L, n] as Set
+    (1..prime_factors.size()).each { k ->
+      prime_factors.kCombinations(k).each { factors << product_of_each(it) }
+    }
+    factors
+  }
 }

@@ -43,7 +43,7 @@ class Problem_12 {
 
       def combinationIsUnique = factorsCombinationIsUnique(prime_factors)
       if ( combinationIsUnique ) {
-        def factors = allFactorsFromPrimeFactors(triangleNumber)
+        def factors = PrimeNumber.factors(triangleNumber)
         if ( factors.size() >= divisorCount ) { answer = triangleNumber }
       }
     }
@@ -83,14 +83,5 @@ class Problem_12 {
 
   long product_of_each(List<Integer> ns) {
     ns.inject(1) { seed, n -> (seed * n) as long }
-  }
-
-  Set<Long> allFactorsFromPrimeFactors(long n) {
-    def prime_factors = factors(n)
-    def factors = [1L, n] as Set
-    (1..prime_factors.size()).each { k ->
-      prime_factors.kCombinations(k).each { factors << product_of_each(it) }
-    }
-    factors
   }
 }
