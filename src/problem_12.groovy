@@ -22,24 +22,30 @@
 package project.euler.problems
 
 class Problem_12 {
-  Problem_12() {
+  Problem_12(int divisorCount) {
+    this.divisorCount = divisorCount
     IterableMonkeyPatch.apply()
   }
 
+  int divisorCount
+
   static void main(String[] args) {
-    def answer = new Problem_12().run()
+    def answer = new Problem_12(500).run()
     assert answer==76576500
     println("answer=$answer")
   }
 
   def run() {
-    def generator = new TriangleNumberGenerator()
-    def answer
-    def divisorCount = 500
+    if (divisorCount < 1) return 0
+    if (divisorCount == 1) return 1
 
+    def generator = new TriangleNumberGenerator()
+    generator.next() // Skip #1
+
+    def answer
     while ( !answer ) {
       def triangleNumber = generator.next()
-      def prime_factors = factors(triangleNumber)
+      def prime_factors = PrimeNumber.prime_factors(triangleNumber)
 
       def combinationIsUnique = factorsCombinationIsUnique(prime_factors)
       if ( combinationIsUnique ) {
@@ -48,12 +54,6 @@ class Problem_12 {
       }
     }
     answer
-  }
-
-  static List<Long> factors(long n) {
-    if ( n < 1 ) return []
-    if ( n == 1 ) return [1]
-    PrimeNumber.prime_factors(n)
   }
 
   def possible_combinations_map = [:]
