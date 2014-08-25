@@ -36,9 +36,9 @@
 //    28    = 2 * 2 * 7
 //            2^2   * 7
 
-// I discovered that the factors of a number can be obtained from the prime
-// number factors by multiplying every number in the 1-k, 2-k, 3-k, ..., n-k
-// combinations, where n = number of prime factors
+// All factors of a number can be obtained from the prime number factors
+// by multiplying every number in the 1-k, 2-k, 3-k, ..., n-k combinations,
+// where n = number of prime factors
 
 // So, 28 has the following 1-k, 2-k, 3-k combinations out of its 3 prime factors:
 // 28 = [[[2],[2],[7]],           # 1-k
@@ -53,6 +53,26 @@
 // Therefore, the factors for 28, after removing duplicates and adding
 // number 1 (which is not prime) to the list, are:
 // 28 = [1,2,4,7,14,28]
+
+// Finding all factors for each triangle numbers in order to determine if
+// factors > divisorCount would be signicantly costly. That determination can be
+// done instead by a simpler detection of whether the prime factors of a number
+// would produce specific number of factors.
+
+// Two examples:
+// Number=76292128, Prime Factors=[2, 2, 2, 2, 2, 11, 193, 1123]
+//                  Prime Factors=[2^5, 11, 93, 1123]
+// It turns out, Number=76292128 has 49 factors. To arrive at the number of factors,
+// the math literature mentions this as a combinatorics problem in which each
+// prime factor that produces a factor can be chosen in this manner:
+// 2    can be chosen 0, 1, 2, 3, 4, or 5 times (total 6)
+// 11   can be chosen 0 or 1 times              (total 2)
+// 93   can be chosen 0 or 1 times              (total 2)
+// 1123 can be chosen 0 or 1 times              (total 2)
+
+// Multiplying all the number of ways in which the prime factors can be chosen
+// to produce a factor becomes:
+// 6 * 2 * 2 * 2 = 48. We add 1, to include non-prime number 1 and reach 49.
 
 package project.euler.problems
 
@@ -82,8 +102,8 @@ class Problem_12 {
       def triangleNumber = generator.next()
       def prime_factors = PrimeNumber.prime_factors(triangleNumber)
 
-      def combinationIsUnique = factorsCombinationIsUnique(prime_factors)
-      if ( prime_factors.size() > 8 && combinationIsUnique ) {
+      def combinations = factorsByPrimeFactorsCount(prime_factors)
+      if ( combinations >= divisorCount ) {
         def factors = PrimeNumber.factors(triangleNumber)
         if ( factors.size() >= divisorCount ) { answer = triangleNumber }
       }
@@ -92,15 +112,9 @@ class Problem_12 {
   }
 
   def uniqueCounts = [""] as Set
-  boolean factorsCombinationIsUnique(List<Long> prime_factors) {
-    def counts = prime_factors.countBy { it }.collect { k, v -> v }.sort().toString()
-    def isUnique = !(counts in uniqueCounts)
-    if (isUnique) { uniqueCounts << counts }
-    isUnique
-  }
-
-  long factorial(int n) {
-    if ( n == 0 ) return 1
-    (1..n).inject(1) { product, value -> product * value }
+  int factorsByPrimeFactorsCount(List<Long> prime_factors) {
+    prime_factors.countBy { it }
+                 .collect { k, v -> v + 1 }
+                 .inject(1) { product, value -> product * value } + 1
   }
 }
